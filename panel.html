@@ -270,6 +270,7 @@ input,select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(-
 </main>
 
 <script>
+var CENSO_TXT = {NO_CENSO:'DNI no está en el censo', EMPRESA:'Empresa distinta a la del censo', DNI:'DNI con formato inválido'};
 var DEFAULT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyZfJ9jCQ_BW5tEK9OP0kWE_dWrxIyIGTGN5JjlaHtikyrzVf6gbpcm3ERuIg7wQSvg/exec';
 var ORD = ['DGV','R','A','I','II','III','IV','V','VI','VII','VIII','IX'];
 var F9 = ['I','II','III','IV','V','VI','VII','VIII','IX'];
@@ -393,7 +394,7 @@ function cargar(){
      IPV = j.ipv;
      DATA = j.registros.map(function(x){ x.datos.edad_r = edadR(x.edad); x.r = ipvCalificar(x.resp); x.cal = ipvCalidad(x.duracionMin, x.resp); x.brecha = ipvBrechaPuesto(x.r, x.datos.nivel); return x; });
      var vistos = {}; DATA.forEach(function(x){ var id = idKey(x.datos.identidad); x.idRep=''; if(!id)return; if(vistos[id]) x.idRep = vistos[id]; else vistos[id] = x.folio; });
-     DATA.forEach(function(x){ x.alq = x.cal.map(function(q){return q.tipo;}); if (x.idRep) x.alq.push('ID repetido'); });
+     DATA.forEach(function(x){ x.alq = x.cal.map(function(q){return q.tipo;}); if (x.idRep) x.alq.push('ID repetido'); if (x.censo) x.alq.push(CENSO_TXT[x.censo] || x.censo); });
      $('hdrSub').textContent = DATA.length + ' respuestas · actualizado ' + new Date(j.generado).toLocaleString('es-HN');
      $('vLogin').hidden = true; $('tabs').hidden = false;
      buildFilters(); tab('consolidado');
@@ -591,7 +592,7 @@ function renderDisc(D){
 }
 function renderAlertas(D){
   var L = D.filter(function(x){return x.alq.length;});
-  $('tblAlertas').innerHTML = L.length ? '<table class="tbl"><thead><tr><th>Folio</th><th>Persona</th><th class="num">Duración (min)</th><th>Alerta</th></tr></thead><tbody>'+L.map(function(x){return '<tr><td>'+esc(x.folio)+'</td><td>'+esc(x.datos.nombre+' '+x.datos.apellido)+'</td><td class="num">'+esc(x.duracionMin)+'</td><td><span class="tag medio">'+esc(x.alq.join(' · '))+'</span></td></tr>';}).join('')+'</tbody></table><div class="src">Respuesta rápida: menos de '+IPV.calidad.minMinutos+' minutos. Patrón de respuesta: misma letra en '+IPV.calidad.maxMismaLetra+' o más situaciones, o secuencia A-B-C. ID repetido: la identidad ya había respondido.</div>' : '<p style="margin:0">Sin alertas de calidad en el grupo filtrado.</p>';
+  $('tblAlertas').innerHTML = L.length ? '<table class="tbl"><thead><tr><th>Folio</th><th>Persona</th><th class="num">Duración (min)</th><th>Alerta</th></tr></thead><tbody>'+L.map(function(x){return '<tr><td>'+esc(x.folio)+'</td><td>'+esc(x.datos.nombre+' '+x.datos.apellido)+'</td><td class="num">'+esc(x.duracionMin)+'</td><td><span class="tag medio">'+esc(x.alq.join(' · '))+'</span></td></tr>';}).join('')+'</tbody></table><div class="src">Respuesta rápida: menos de '+IPV.calidad.minMinutos+' minutos. Patrón de respuesta: misma letra en '+IPV.calidad.maxMismaLetra+' o más situaciones, o secuencia A-B-C. ID repetido: la identidad ya había respondido. Censo: el DNI no está en el censo, la empresa no coincide o el DNI no tiene 13 dígitos; corregir para completar área, puesto y nivel.</div>' : '<p style="margin:0">Sin alertas de calidad en el grupo filtrado.</p>';
 }
 
 /* ---------------- individual ---------------- */
@@ -631,6 +632,7 @@ function reportHTML(x){
   kick += partes.length ? '. ' + partes.join('; ').replace(/^./, function(c){return c.toUpperCase();}) : '. Todos sus factores en nivel Medio';
   h += '<div class="kicker">«'+esc(kick)+'»</div>';
   x.cal.forEach(function(q){ h += '<div class="alerta r"><b>Alerta de calidad · '+esc(q.tipo)+'.</b> '+esc(q.desc)+'</div>'; });
+  if (x.censo) h += '<div class="alerta r"><b>Alerta de datos · '+esc(CENSO_TXT[x.censo] || x.censo)+'.</b> Revise el número de identidad contra el censo de la empresa. Mientras no se corrija, el código, área, puesto, sede, nivel, edad, género y antigüedad de esta persona pueden quedar vacíos.</div>';
   if (x.idRep) h += '<div class="alerta r"><b>Alerta de calidad · ID repetido.</b> Esta identidad ya había respondido con el folio '+esc(x.idRep)+'. Confirmar cuál registro es válido.</div>';
   // 1 · perfil
   h += '<div class="sec"><h3>1. Perfil IPV</h3><div class="tiles">'+['DGV','R','A'].map(function(id){return tile(id,r);}).join('')+'</div>';
