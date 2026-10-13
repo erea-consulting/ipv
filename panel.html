@@ -561,7 +561,7 @@ function reportHTML(x){
   // 1 · perfil
   h += '<div class="sec"><h3>1. Perfil IPV</h3><div class="tiles">'+['DGV','R','A'].map(function(id){return tile(id,r);}).join('')+'</div>';
   h += svgPerfil(perfilRows(r.dec, function(id){return r.nivel[id];}).map(function(o,i){ o.txt = String(r.dec[ORD[i]]); return o; }));
-  h += '<div class="src">Decatipos de 1 a 10 según el baremo IPV usado por EREA. Receptividad = Comprensión + Adaptabilidad + Control de sí + Tolerancia a la frustración. Agresividad = Combatividad + Dominancia + Seguridad + Actividad. La Sociabilidad no entra en ninguno de los dos.</div></div>';
+  h += '<div class="src">Decatipos de 1 a 10 según el baremo IPV. Receptividad = Comprensión + Adaptabilidad + Control de sí + Tolerancia a la frustración. Agresividad = Combatividad + Dominancia + Seguridad + Actividad. La Sociabilidad no entra en ninguno de los dos.</div></div>';
   // 2 · estilo de venta
   var E = IPV.estilos[r.estilo];
   h += '<div class="sec flow"><h3>2. Disposición y estilo de venta</h3><div class="estilo"><div class="tp"><div class="eyebrow">Estilo de venta</div><div class="n">'+esc(E[0])+'</div><div style="font-size:12px;color:#666">Receptividad '+r.dec.R+' · Agresividad '+r.dec.A+'</div></div><p style="margin:0;font-size:13px">'+esc(E[1])+'</p></div>';
