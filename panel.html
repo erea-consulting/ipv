@@ -153,6 +153,8 @@ input,select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(-
 
 /* ---- IPV ---- */
 .kpis.k6{grid-template-columns:repeat(6,1fr)}
+.filtLine{font-size:12px;color:var(--mute);margin:-6px 0 14px}.filtLine b{color:var(--ink)}
+.segGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px 22px}.segGrid h4{margin:0 0 6px;font-size:13px;color:var(--acc);letter-spacing:.04em}.segGrid .tbl{font-size:12px}.segGrid>div{break-inside:avoid}
 .lv{display:inline-block;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;white-space:nowrap}
 .lv.b0{background:#F3DDD6;color:#8E3A24}.lv.b1{background:#F8ECE8;color:#9a3f28}.lv.b2{background:#EEF2EF;color:#3F4B45}
 .lv.b3{background:#E3F2EC;color:#1D6B52}.lv.b4{background:#D3EEE3;color:#17724F}.lv.b5{background:#BFE6D6;color:#0D5E4B}
@@ -186,7 +188,7 @@ input,select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(-
 .metodo{font-size:11px;color:var(--mute);border-top:1px solid var(--line);margin-top:18px;padding-top:8px}
 .opt2{font-size:12px;color:var(--mute);margin-top:10px}
 .hmc{display:inline-block;min-width:26px;text-align:center;padding:1px 4px;border-radius:3px}
-@media (max-width:900px){.tiles{grid-template-columns:1fr}.lect,.recs,.estilo{grid-template-columns:1fr}.kpis.k6{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:900px){.tiles{grid-template-columns:1fr}.lect,.recs,.estilo{grid-template-columns:1fr}.kpis.k6{grid-template-columns:repeat(2,1fr)}.segGrid{grid-template-columns:1fr}}
 @media print{.sec.flow{break-inside:auto}.sec h3{break-after:avoid}.tiles{grid-template-columns:repeat(3,1fr)}.lect,.recs{grid-template-columns:1fr 1fr}.estilo{grid-template-columns:2fr 3fr}.kpis.k6{grid-template-columns:repeat(3,1fr)}.lect>div,.recs>div,.cruce{break-inside:avoid}}
 </style>
 </head>
@@ -223,6 +225,7 @@ input,select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(-
  <section id="vCons" hidden>
   <div class="eyebrow">Reporte consolidado · IPV</div>
   <h2 id="consTitle">Perfil comercial del grupo</h2>
+  <div class="filtLine" id="filtLine"></div>
   <div class="filters noprint" id="filters"></div>
   <div class="bar noprint">
    <span class="grow" id="filterInfo"></span>
@@ -240,6 +243,7 @@ input,select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(-
    <div class="wrap" id="tblSeg"></div>
    <div class="src">Decatipo promedio por escala; verde: Alto o más (≥ 7), terracota: Bajo (≤ 3). Grupos con menos de 5 personas se marcan con *: interpretar con cautela.</div>
   </div>
+  <div class="card sec flow" style="margin-bottom:22px"><h3>Resultados por características del participante</h3><div class="segGrid" id="segDims"></div><div class="src">Decatipo promedio en Disposición para la venta (DGV), Receptividad (R) y Agresividad (A); estilo predominante y personas por debajo del mínimo para venta. Grupos con menos de 5 personas (*): interpretar con cautela. Para ver todas las escalas de un grupo, use «Agrupar por» o los filtros.</div></div>
   <div class="grid2">
    <div class="card"><h3>Estilo de venta del grupo</h3><div id="chEstilo"></div><div class="src">Receptivo: Receptividad al menos 2 puntos por encima de Agresividad. Conquistador: Agresividad al menos 2 puntos por encima. Equilibrado: diferencia menor a 2.</div></div>
    <div class="card"><h3>Personas por debajo del mínimo para venta</h3><div id="tblBrecha"></div><div class="src">Criterio EREA: para puestos comerciales se espera al menos nivel Medio (≥ 4) en Disposición para la venta, Receptividad y Agresividad; en Supervisión, Jefatura, Gerencia y Dirección, además en Control de sí y Dominancia.</div></div>
@@ -493,7 +497,26 @@ function renderCons(){
     h += '<tr><td>'+(i<3?'<b>'+a+' · '+esc(fz(a).corto)+'</b>':a+' · '+esc(fz(a).corto))+'</td>'+NIV.map(function(l,j){ var v=c[l]||0; return '<td class="num">'+(v?'<span class="lv b'+j+'">'+v+' ('+Math.round(100*v/n)+'%)</span>':'—')+'</td>'; }).join('')+'</tr>'; });
   $('tblDist').innerHTML = h + '</tbody></table>';
   $('chEstilo').innerHTML = n ? svgBarsH(['receptivo','conquistador','equilibrado'].map(function(e){ return {l:IPV.estilos[e][0], v:est[e], t:est[e]+' ('+Math.round(100*est[e]/n)+'%)', hi:e===estTop}; })) : '';
-  renderSeg(D); renderBrecha(brecha); renderDisc(D); renderAlertas(D);
+  renderSeg(D); renderDims(D); renderBrecha(brecha); renderDisc(D); renderAlertas(D);
+  var fl = DIMS.filter(function(x){return FILT[x[0]];}).map(function(x){return x[1]+': <b>'+esc(FILT[x[0]])+'</b>';});
+  $('filtLine').innerHTML = 'Filtros aplicados: ' + (fl.length ? fl.join(' · ') : '<b>ninguno</b> (todos los participantes)') + ' · ' + n + ' de ' + DATA.length + ' participantes';
+}
+var DIMS_SEG = ['empresa','area','nivel','sede','edad_r','genero','antiguedad'];
+var ORDEN_DIM = {edad_r:['Menos de 25','25 a 34','35 a 44','45 a 54','55 o más','Sin dato'], antiguedad:['Menos de 1 año','1 a 3 años','3 a 5 años','5 a 10 años','Más de 10 años','Sin dato'], nivel:['Dirección','Gerencia','Jefatura','Supervisión / Coordinación','Administrativo / Técnico','Operativo','Sin dato']};
+function renderDims(D){
+  var h = '';
+  DIMS_SEG.forEach(function(by){
+    var lab = DIMS.filter(function(x){return x[0]===by;})[0][1], g = {};
+    D.forEach(function(x){ var k = x.datos[by]||'Sin dato'; (g[k]=g[k]||[]).push(x); });
+    var keys = Object.keys(g), o = ORDEN_DIM[by];
+    keys.sort(o ? function(a,b){ return (o.indexOf(a)<0?99:o.indexOf(a)) - (o.indexOf(b)<0?99:o.indexOf(b)); } : function(a,b){ return g[b].length-g[a].length || a.localeCompare(b,'es'); });
+    h += '<div><h4>'+esc(lab)+'</h4><table class="tbl"><thead><tr><th>'+esc(lab)+'</th><th class="num">n</th><th class="num">DGV</th><th class="num">R</th><th class="num">A</th><th>Estilo</th><th class="num">Bajo mín.</th></tr></thead><tbody>';
+    keys.forEach(function(k){ var L = g[k], e = {}; L.forEach(function(x){ e[x.r.estilo]=(e[x.r.estilo]||0)+1; });
+      var et = Object.keys(e).sort(function(a,b){return e[b]-e[a];})[0];
+      h += '<tr><td>'+esc(k)+(L.length<5?' *':'')+'</td><td class="num">'+L.length+'</td>'+['DGV','R','A'].map(function(a){ var v = avg(L,function(x){return x.r.dec[a];}); return '<td class="num">'+hm(v, r1(v))+'</td>'; }).join('')+'<td>'+esc(IPV.estilos[et][0])+'</td><td class="num">'+cnt(L,function(x){return x.brecha.length;})+'</td></tr>'; });
+    h += '</tbody></table></div>';
+  });
+  $('segDims').innerHTML = h;
 }
 function renderSeg(D){
   var by = $('grpBy').value, g = {};
