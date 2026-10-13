@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Evaluación IPV · Inventario de personalidad del vendedor · EREA Consulting</title>
+<meta name="description" content="Cuestionario IPV de EREA Consulting: rasgos de personalidad vinculados con la venta. 87 situaciones, 30 a 45 minutos. Respuestas confidenciales.">
+<meta property="og:title" content="Evaluación IPV · Inventario de personalidad del vendedor · EREA Consulting">
+<meta property="og:description" content="Cuestionario IPV de EREA Consulting: rasgos de personalidad vinculados con la venta. 87 situaciones, 30 a 45 minutos. Respuestas confidenciales.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="EREA Consulting">
+<meta property="og:image" content="https://erea-consulting.github.io/ipv/assets/logo-erea.png">
+<meta property="og:url" content="https://erea-consulting.github.io/ipv/">
+<link rel="icon" href="assets/logo-erea.png">
+<style>
+
+:root{--field:#0D5E4B;--acc:#0D8B7D;--ui:#267058;--soft:#E6F2EE;--ink:#1A1A1A;--body:#333333;--mute:#666666;--line:#DBE4DD;--line2:#C4D1C7;--neg:#B4543A;--alert:#F4A833;--bg:#FFFFFF;--card:#FFFFFF}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg)}
+body{font-family:Arial,Helvetica,sans-serif;color:var(--body);font-size:16px;line-height:1.5;min-height:100vh;display:flex;flex-direction:column}
+.hdr{border-bottom:3px solid var(--acc);background:var(--bg);position:sticky;top:0;z-index:20}
+.hdr .row{max-width:760px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px}
+.hdr img{height:34px;width:auto}
+.hdr .ttl{flex:1;min-width:0;text-align:right}
+.hdr .ttl b{display:block;color:var(--ink);font-size:14px}
+.hdr .ttl span{font-size:12px;color:var(--mute)}
+.prog{height:4px;background:var(--line)}
+.prog i{display:block;height:100%;width:0;background:var(--acc);transition:width .25s}
+main{flex:1;width:100%;max-width:760px;margin:0 auto;padding:24px 16px 40px}
+.eyebrow{font-size:11px;letter-spacing:.22em;font-weight:bold;color:var(--acc);text-transform:uppercase;margin-bottom:6px}
+h1{font-size:28px;line-height:1.2;color:var(--ink);margin:0 0 8px;text-transform:uppercase}
+h2{font-size:22px;line-height:1.3;color:var(--ink);margin:0 0 6px}
+h2:after,h1:after{content:"";display:block;width:64px;height:3px;background:var(--acc);margin-top:12px}
+p{margin:10px 0}
+.lead{font-size:17px;color:var(--body)}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.meta>div{border:1px solid var(--line);border-top:3px solid var(--acc);border-radius:3px;padding:10px 14px;flex:1;min-width:140px}
+.meta .l{font-size:10px;letter-spacing:.18em;color:var(--mute);font-weight:bold;text-transform:uppercase}
+.meta .v{font-size:18px;font-weight:bold;color:var(--ink)}
+.box{background:var(--soft);border-left:4px solid var(--acc);padding:14px 18px;border-radius:3px;margin:18px 0;font-size:15px}
+.box.warn{border-left-color:var(--alert);background:#FDF5E6}
+.box.err{border-left-color:var(--neg);background:#F8ECE8;color:var(--ink)}
+ol.obs{padding-left:22px;margin:8px 0}ol.obs li{margin:6px 0}
+.check{display:flex;gap:12px;align-items:flex-start;margin:18px 0;font-size:15px;cursor:pointer}
+.check input{width:22px;height:22px;flex:none;margin-top:1px;accent-color:var(--acc)}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;margin-top:18px}
+.f{display:flex;flex-direction:column;gap:5px}
+.f.full{grid-column:1/-1}
+.f label{font-size:13px;font-weight:bold;color:var(--ink)}
+.f label .req{color:var(--neg)}
+.f input,.f select{font:inherit;font-size:16px;padding:11px 12px;border:1px solid var(--line2);border-radius:3px;background:var(--card);color:var(--ink);width:100%}
+.f input:focus,.f select:focus{outline:2px solid var(--acc);outline-offset:0;border-color:var(--acc)}
+.f input[readonly]{background:var(--soft);color:var(--mute)}
+.f.bad input,.f.bad select{border-color:var(--neg)}
+.f .hint{font-size:12px;color:var(--neg);min-height:0}
+.nav{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:26px}
+.btn{font:inherit;font-size:16px;font-weight:bold;padding:13px 26px;border-radius:3px;border:1px solid var(--acc);background:var(--acc);color:#fff;cursor:pointer;min-width:140px}
+.btn:hover{background:var(--field);border-color:var(--field)}
+.btn.sec{background:var(--card);color:var(--ui);border-color:var(--line2)}
+.btn.sec:hover{background:var(--soft)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.counter{font-size:13px;color:var(--mute)}
+.sum{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:16px 0}
+.sum button{font:inherit;font-size:13px;padding:8px 0;border:1px solid var(--line2);border-radius:3px;background:var(--card);cursor:pointer;color:var(--ink)}
+.sum button.ok{background:var(--soft);border-color:var(--acc);color:var(--field);font-weight:bold}
+.sum button.no{border-color:var(--neg);color:var(--neg);font-weight:bold}
+.done{text-align:center;padding:30px 0}
+.done .mark{width:72px;height:72px;border-radius:50%;background:var(--acc);color:#fff;font-size:38px;line-height:72px;margin:0 auto 18px}
+.done h2:after{margin-left:auto;margin-right:auto}
+.folio{display:inline-block;margin-top:10px;padding:8px 16px;border:1px dashed var(--acc);border-radius:3px;font-weight:bold;color:var(--field);letter-spacing:.08em}
+.demo{background:#FDF5E6;border-bottom:1px solid var(--alert);color:var(--ink);font-size:13px;text-align:center;padding:6px 12px}
+footer{border-top:1px solid var(--line);padding:16px;text-align:center;font-size:12px;color:var(--mute)}
+footer b{color:var(--field)}
+[hidden]{display:none!important}
+@media (max-width:600px){
+ h1{font-size:23px}h2{font-size:20px}
+ .form{grid-template-columns:1fr}
+ .btn{min-width:0;flex:1;padding:13px 14px}
+ .sum{grid-template-columns:repeat(4,1fr)}
+}
+
+.qhead{text-align:left;margin:4px 0 0}
+.qhead .qn{font-size:13px;letter-spacing:.18em;font-weight:bold;color:var(--acc);text-transform:uppercase;margin:0}
+.qtext{font-size:20px;line-height:1.45;color:var(--ink);margin:10px 0 18px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.op{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line2);border-radius:3px;padding:14px 16px;cursor:pointer;background:var(--card);transition:border-color .12s,background .12s}
+.op:hover{border-color:var(--acc)}
+.op input{position:absolute;opacity:0;pointer-events:none}
+.op .lt{flex:none;width:34px;height:34px;border-radius:50%;border:2px solid var(--line2);background:var(--soft);display:flex;align-items:center;justify-content:center;font-weight:bold;color:var(--ui);font-size:15px}
+.op .tx{font-size:17px;line-height:1.4;color:var(--body);padding-top:5px}
+.op.on{border-color:var(--acc);background:var(--soft)}
+.op.on .lt{background:var(--acc);border-color:var(--acc);color:#fff}
+.op.on .tx{color:var(--ink);font-weight:bold}
+.op:focus-within{outline:2px solid var(--acc);outline-offset:1px}
+.sum{grid-template-columns:repeat(10,1fr)}
+kbd{display:inline-block;min-width:22px;padding:1px 6px;border:1px solid var(--line2);border-bottom-width:2px;border-radius:3px;background:var(--card);font:bold 13px Arial,Helvetica,sans-serif;color:var(--ink);text-align:center;line-height:18px}
+.khint{font-size:13px;color:var(--mute);margin:0 0 8px;text-align:center}
+/* Barra fija de navegación en las preguntas: Teclado, Atrás y Siguiente no se mueven entre situaciones */
+.qfoot{position:fixed;left:0;right:0;bottom:0;z-index:15;background:var(--bg);border-top:1px solid var(--line);box-shadow:0 -4px 14px rgba(0,0,0,.06)}
+.qfoot .in{max-width:760px;margin:0 auto;padding:12px 16px calc(14px + env(safe-area-inset-bottom))}
+.qfoot .nav{margin-top:0;height:52px;flex-wrap:nowrap}
+.qfoot .btn{white-space:nowrap;height:48px;padding-top:0;padding-bottom:0}
+@media (max-width:420px){.qfoot .counter{font-size:12px}.qfoot .btn{padding-left:10px;padding-right:10px;font-size:15px}}
+.qfoot .counter{white-space:nowrap;text-align:center;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+body.qmode main{padding-bottom:170px}
+body.qmode footer{display:none}
+@media (hover:none),(pointer:coarse){.kbd-only{display:none!important}}
+@media (max-width:600px){
+ .qtext{font-size:18px}
+ .op .tx{font-size:16px}
+ .sum{grid-template-columns:repeat(6,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="demo" id="demoBar" hidden>Modo demostración: falta configurar el destino de datos. Las respuestas no se guardarán.</div>
+<header class="hdr">
+ <div class="row">
+  <img src="https://www.ereaconsulting.com/logo.svg" alt="EREA Consulting Group" onerror="this.onerror=null;this.src='assets/logo-erea.png'">
+  <div class="ttl"><b>Cuestionario IPV</b><span id="hdrEmpresa">Inventario de personalidad del vendedor</span></div>
+ </div>
+ <div class="prog"><i id="progBar"></i></div>
+</header>
+
+<main id="app">
+
+ <!-- 0. PORTADA -->
+ <section data-step="portada">
+  <div class="eyebrow">Inventario de personalidad del vendedor</div>
+  <h1>Cuestionario IPV</h1>
+  <p class="lead">Este cuestionario explora sus preferencias y su forma de reaccionar ante situaciones cotidianas: cómo se relaciona con los demás, cómo enfrenta el desacuerdo, el rechazo y las situaciones nuevas. No hay respuestas buenas ni malas.</p>
+  <div class="meta">
+   <div><div class="l">Duración</div><div class="v">30 a 45 min</div></div>
+   <div><div class="l">Situaciones</div><div class="v">87</div></div>
+   <div><div class="l">Organización</div><div class="v" id="metaEmpresa">—</div></div>
+  </div>
+  <div class="box">
+   <b>Confidencialidad.</b> Sus respuestas son confidenciales. Solo el equipo consultor de EREA Consulting tendrá acceso a los resultados individuales, que se usarán exclusivamente con fines de desarrollo organizacional.
+  </div>
+  <label class="check"><input type="checkbox" id="consent"><span>He leído la información anterior y acepto participar de forma voluntaria y que mis respuestas sean procesadas por EREA Consulting para los fines descritos.</span></label>
+  <div class="box err" id="pendingBox" hidden></div>
+  <div class="nav"><span></span><button class="btn" id="btnStart" disabled>Comenzar</button></div>
+ </section>
+
+ <!-- 1. DATOS -->
+ <section data-step="datos" hidden>
+  <div class="eyebrow">Paso 1 de 3</div>
+  <h2>Datos del participante</h2>
+  <p>Complete sus datos tal como aparecen en los registros de la empresa.</p>
+  <form class="form" id="formDatos" autocomplete="on" onsubmit="return false"></form>
+  <div class="nav"><button class="btn sec" data-go="portada">Atrás</button><button class="btn" id="btnDatos">Continuar</button></div>
+ </section>
+
+ <!-- 2. INSTRUCCIONES -->
+ <section data-step="instrucciones" hidden>
+  <div class="eyebrow">Paso 2 de 3</div>
+  <h2>Instrucciones</h2>
+  <p>A continuación encontrará <b>87 situaciones</b>, cada una con <b>dos o tres respuestas posibles</b>. Elija <b>una sola</b>: la que, de manera espontánea, le parezca preferible.</p>
+  <p>En algunas situaciones usted está implicado personalmente; otras se refieren a otra persona (por ejemplo «J...»). En ese caso, responda lo que, según su opinión, es más probable que haga esa persona.</p>
+  <div class="box"><b>No hay respuestas buenas ni malas.</b> Cada persona actúa como cree conveniente según su carácter y sus intereses. Si quiere cambiar una respuesta, toque la otra opción; puede cambiarla mientras no haya enviado el cuestionario.</div>
+  <div class="box kbd-only"><b>Si responde desde una computadora</b>, puede usar el teclado: presione <kbd>A</kbd> <kbd>B</kbd> <kbd>C</kbd> o <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> para marcar la opción, y <kbd>Enter</kbd> para pasar a la siguiente situación.</div>
+  <p style="font-weight:bold;color:var(--ink);margin-top:20px">Observaciones importantes</p>
+  <ol class="obs">
+   <li>La prueba toma de 30 a 45 minutos. Busque un espacio tranquilo para completarla sin interrupciones.</li>
+   <li>Debe contestar las 87 situaciones y luego presionar <b>Enviar</b>. Si no presiona Enviar, sus respuestas no quedan registradas. Si la página se cierra por accidente, al volver a abrirla en este mismo dispositivo podrá continuar donde quedó.</li>
+   <li>Responda de la forma más espontánea y sincera posible, con la respuesta que se le ocurra al leer las opciones. Conteste rápido, sin reflexionar demasiado.</li>
+   <li>Es posible que ninguna respuesta le convenza del todo: elija la que le parezca mejor entre las que se ofrecen.</li>
+   <li>Muchas situaciones no son del ámbito laboral. Responda igualmente.</li>
+   <li>No hay tiempo límite, pero no emplee demasiado tiempo en una sola situación.</li>
+  </ol>
+  <div class="nav"><button class="btn sec" data-go="datos">Atrás</button><button class="btn" id="btnInstr">Empezar el cuestionario</button></div>
+ </section>
+
+ <!-- 3. PREGUNTAS -->
+ <section data-step="preguntas" hidden>
+  <div class="qhead"><p class="qn" id="qEyebrow">Situación 1 de 87</p></div>
+  <p class="qtext" id="qText"></p>
+  <div class="opts" id="qBox" role="radiogroup"></div>
+  <div class="box err" id="qErr" hidden></div>
+  <div class="qfoot"><div class="in">
+   <p class="khint kbd-only">Teclado: <kbd>A</kbd>–<kbd>C</kbd> o <kbd>1</kbd>–<kbd>3</kbd> para marcar · <kbd>Enter</kbd> para continuar</p>
+   <div class="nav"><button class="btn sec" id="btnPrev">Atrás</button><span class="counter" id="qCounter"></span><button class="btn" id="btnNext">Siguiente</button></div>
+  </div></div>
+ </section>
+
+ <!-- 4. REVISIÓN -->
+ <section data-step="revision" hidden>
+  <div class="eyebrow">Revisión final</div>
+  <h2>Todo listo para enviar</h2>
+  <p>Estas son las 87 situaciones. Puede tocar cualquiera para revisarla antes de enviar.</p>
+  <div class="sum" id="sumBox"></div>
+  <div class="box err" id="sendErr" hidden></div>
+  <div class="nav"><button class="btn sec" id="btnBackQ">Atrás</button><button class="btn" id="btnSend">Enviar respuestas</button></div>
+ </section>
+
+ <!-- 5. FIN -->
+ <section data-step="fin" hidden>
+  <div class="done">
+   <div class="mark">&#10003;</div>
+   <div class="eyebrow">Cuestionario completado</div>
+   <h2>Gracias por su participación</h2>
+   <p id="finMsg">Sus respuestas fueron registradas correctamente. Ya puede cerrar esta página.</p>
+   <div class="folio" id="finFolio" hidden></div>
+  </div>
+ </section>
+
+</main>
+
+<footer>Está prohibida su reproducción total o parcial sin la autorización por escrito de <b>EREA Consulting</b>.</footer>
+
+<script>
+/* ================== CONFIGURACIÓN (editar aquí) ================== */
+var CONFIG = {
+  // URL de la aplicación web de Google Apps Script (termina en /exec)
+  endpoint: 'PEGAR_AQUI_URL_APPS_SCRIPT',
+  prueba: 'IPV',
+  version: '1.0',
+  // Campos del participante (idénticos al CLEAVER y al MOSS). visible:false los oculta; requerido:false los vuelve opcionales.
+  // Cualquier campo se puede precargar por URL: ?empresa=Bomohsa&sede=Tegucigalpa y bloquear con &bloquear=empresa,sede
+  campos: [
+    {id:'empresa',  etiqueta:'Empresa',              tipo:'text',   visible:true,  requerido:true,  opciones:[]},
+    {id:'nombre',   etiqueta:'Nombre(s)',            tipo:'text',   visible:true,  requerido:true,  opciones:[], auto:'given-name'},
+    {id:'apellido', etiqueta:'Apellido(s)',          tipo:'text',   visible:true,  requerido:true,  opciones:[], auto:'family-name'},
+    {id:'identidad',etiqueta:'Número de identidad (ID)', tipo:'text', visible:true, requerido:true, opciones:[]},
+    {id:'codigo',   etiqueta:'Código de empleado',   tipo:'text',   visible:true,  requerido:false, opciones:[]},
+    {id:'area',     etiqueta:'Área',                 tipo:'text',   visible:true,  requerido:true,  opciones:[]},
+    {id:'puesto',   etiqueta:'Puesto',               tipo:'text',   visible:true,  requerido:true,  opciones:[]},
+    {id:'sede',     etiqueta:'Sede',                 tipo:'text',   visible:true,  requerido:true,  opciones:[]},
+    {id:'nivel',    etiqueta:'Nivel jerárquico',     tipo:'select', visible:true,  requerido:true,
+       opciones:['Operativo','Administrativo / Técnico','Supervisión / Coordinación','Jefatura','Gerencia','Dirección']},
+    {id:'fecha_nacimiento', etiqueta:'Fecha de nacimiento', tipo:'date', visible:true, requerido:false, opciones:[]},
+    {id:'genero',   etiqueta:'Género',               tipo:'select', visible:true,  requerido:false, opciones:['Femenino','Masculino','Prefiero no decir']},
+    {id:'antiguedad', etiqueta:'Antigüedad en la empresa', tipo:'select', visible:true, requerido:false,
+       opciones:['Menos de 1 año','1 a 3 años','3 a 5 años','5 a 10 años','Más de 10 años']}
+  ]
+};
+/* ================================================================ */
+
+var ITEMS = [{"p": "T... debe salir de viaje con una persona de la que no conoce nada. ¿Sobre cuál de los siguientes aspectos de esa persona es preferible informar a T... para que el viaje resulte mejor?", "o": ["Su estilo de vida.", "Los puntos que tengan en común.", "Su actividad y sus responsabilidades profesionales."]}, {"p": "Entre los siguientes tipos de vendedores de prendas confeccionadas, ¿cuál es el que puede tener más probabilidades de éxito?", "o": ["El que presente las últimas novedades.", "El que, tratando de conocer el estilo de su cliente, se interese por su modo de vida.", "El que posea una buena capacidad de convencer."]}, {"p": "B... tiene un proyecto importante para la promoción de un nuevo producto y va a exponer su idea ante el comité de Dirección. ¿Cuál de las siguientes cualidades le será más útil para persuadir a su auditorio?", "o": ["Competencia técnica y un conocimiento perfecto del tema.", "Capacidad para modificar sus razonamientos según la actitud del auditorio.", "Facultad para mantener el orden de sus ideas a pesar de las interrupciones."]}, {"p": "Se envía a G… contra su voluntad, a un país extranjero, por el cual no se siente atraído en principio, para una estancia de varias semanas. ¿Cuál será su actitud?", "o": ["Estimar que la duración de su estancia es demasiado corta para conseguir integrarse.", "Tratar de entender la lengua para comprender mejor a este país y vivir más a gusto en él.", "No tener más de los contactos estrictamente necesarios para la buena marcha de su trabajo."]}, {"p": "Según su opinión, las personas que dicen siempre “su” verdad a los demás aunque esta sea desagradable, lo hacen, en general, porque:", "o": ["No saben controlar sus impulsos y dicen espontáneamente lo que piensan.", "No les gusta la hipocresía.", "Piensan que esto simplifica las relaciones."]}, {"p": "Un buen amigo de C... había comenzado bastante bien su carrera profesional, pero los resultados no han sido lo que cabría esperar y terminó teniendo numerosos fracasos. ¿Qué piensa C. acerca de esto?", "o": ["Que las condiciones no le han sido favorables.", "Que no estaba a la altura necesaria.", "Que no ha utilizado bien los medios para salir adelante."]}, {"p": "B… encuentra, en casa de unos amigos, a una persona que aparenta una edad muy inferior a la que realmente tiene. ¿Qué opinará B...?", "o": ["“Probablemente ha encontrado en la vida lo que le convenía”", "“Tiene buena suerte; es cuestión de naturaleza”", "“Seguramente ha tenido una vida fácil”"]}, {"p": "Para expansionarse, S... decide aprender judo. Después de unos meses de entrenamiento se da cuenta de que progresa muy lentamente, ¿cuál será su reacción?", "o": ["Pensando que realmente no está hecho para el judo, elegirá otro deporte.", "Convencido de que no está dotado para las actividades corporales buscará otra forma de actividad.", "Continuará sus esfuerzos con la esperanza de que seguramente serán un día coronados por el éxito."]}, {"p": "P… se acuesta una noche muy fatigado, pero no puede dormirse porque sus vecinos del piso superior han organizado una fiesta muy ruidosa. ¿Qué hará?", "o": ["Subir y advertir a sus vecinos.", "Dar con la escoba algunos golpes en el techo.", "Tomar un somnífero y tratar de dormir cueste lo que cueste."]}, {"p": "G… que carece de teléfono, llega a una oficina de telégrafos para enviar un telegrama a la hora de cerrar. El encargado le dice que es demasiado tarde, que va a cerrar. ¿Qué hará G...?", "o": ["Ir a casa de un amigo que tiene teléfono para poner el telegrama por teléfono.", "Convencer al encargado de que su telegrama es muy urgente y que debe salir inmediatamente.", "Ir a una oficina de telégrafos que cierre más tarde."]}, {"p": "X… hace un viaje de turismo por un país donde es costumbre discutir los precios. ¿Cuál será su actitud?", "o": ["Hará pocas compras porque le molesta tener que discutir siempre.", "Hará numerosas compras, incluso un poco inútiles, porque le encanta discutir los precios.", "Convencido de que le timarían, preferiría los almacenes de precios fijos."]}, {"p": "Sin tener en cuenta la formación y competencia necesarias, ¿cuál de las siguientes Jefaturas le gustaría asumir?", "o": ["Gestión.", "Personal.", "Publicidad."]}, {"p": "Un escritor poco conocido acaba de recibir el premio Planeta. ¿Qué cree usted que preferirá hacer?", "o": ["Escribir menos y aprovechar de su éxito para salir, recibir a la gente y hacer una vida de Sociedad.", "Intentar escribir una obra maestra.", "Dedicarse a la pintura e intentar triunfar también en ella."]}, {"p": "Si usted se encontrara en una situación de examen en la que pudiera elegir entre dos temas, ¿cuál escogería?", "o": ["Un tema ampliamente tratado durante el curso con el que tiene casi la plena seguridad de alcanzar la nota media necesaria.", "Un tema que le permita, con un mínimo de conocimientos, pero con mucha lógica e imaginación, una calificación muy buena pero, quizá, también muy mala."]}, {"p": "Entre las siguientes actividades de descanso físico en la naturaleza, ¿cuál prefiere usted?", "o": ["Una vuelta por la bahía cuando el mar está agitado.", "Un baño de sol en una playa de arena fina, en un hermoso día de verano con el aire en calma.", "Un paseo por el campo en primavera."]}, {"p": "¿Qué es, a su juicio, lo que atrae a más gente en viajes al extranjero?", "o": ["Los paisajes nuevos.", "El descubrimiento de otra civilización física.", "El contacto de una población de costumbres diferentes."]}, {"p": "P… camina rápidamente por la calle y parece que tiene prisa. Un joven que realiza una encuesta lo detiene para hacerle algunas preguntas extrañas, pero divertidas. ¿Qué hará P...?", "o": ["Rehusar con firmeza contestar las preguntas.", "Responder rápidamente, porque lo encuentra divertido.", "Excusarse de no tener tiempo para responder, sintiendo de verdad no poder hacerlo."]}, {"p": "L... trabaja en una empresa que recibe muy pocas informaciones a nivel oficial. ¿Qué opina usted de ello?", "o": ["Que será muy difícil obtener información.", "Que con los “rumores de pasillo”, eso no constituye problema.", "Que, de hecho, es muy fácil estar informado; bastará con conocer a algunas personas bien situadas."]}, {"p": "Son las once de la noche. Hay numerosos vehículos aparcados en la calle, algunos de ellos sobre las aceras. P... ve desde su ventana una persona que intenta abrir la puerta de un coche, parece que no tiene llave y utiliza un destornillador. ¿Cuál será la percepción de P…?", "o": ["“Probablemente es un ratero que trata de robar un coche. ¿Y si yo llamase a la policía?”", "“Alguien ha quedado atrapado en la acera y trata de mover un coche para salir”", "“¿Qué estará haciendo? Parece que utiliza un destornillador”"]}, {"p": "Cuando un niño ha cometido una gran tontería, ¿cuál es, a su modo de ver la mejor reacción?", "o": ["Castigarle, explicándole por qué lo hace.", "Explicarle la significación de su tontería situándole en su contexto.", "Apelar al amor propio del niño."]}, {"p": "B... tiene varios hijos y ha decidido intervenir en la educación sexual de cada uno de ellos. ¿Qué procedimiento le parece a usted que adoptará probablemente?", "o": ["Reflexionar sobre el asunto y preparar, con el hijo mayor un tipo de intervención que luego mantendrá con los demás hijos.", "Seguir su intuición y sus sentimientos.", "Adoptar un modo de proceder distinto para cada hijo."]}, {"p": "¿Cuál es para un niño la manera más “astuta” de presentar unas calificaciones escolares poco brillantes?", "o": ["Enseñarlas lo antes posible para librarse de ellas.", "Presentarlas el lunes a la hora del desayuno.", "Presentarlas en el momento en el que pueda aportar, además alguna compensación."]}, {"p": "El hijo de G... ha entrado en el despacho de su padre a pesar de que éste se lo tiene prohibido, y ha derramado un frasco de tinta sobre papeles importantes. G... furioso, le da un fuerte azote. ¿Qué pensará G... algún tiempo después?", "o": ["Que un buen azote de vez en cuando no viene mal.", "Que tal vez se ha excedido un poco.", "Que es conveniente enfadarse de verdad una vez para no tener que volver a hacerlo."]}, {"p": "Una persona con la que D... se relaciona muy frecuentemente acaba de jugarle una mala pasada. ¿Cuál será la reacción de D...?", "o": ["No muestra ninguna reacción, pero se da cuenta que le durará durante mucho tiempo su resentimiento.", "No dice nada porque piensa que el daño causado es tal vez menor que el que había creído.", "Se esfuerza en ocultar su resentimiento para no entorpecer sus futuras relaciones."]}, {"p": "N... asiste a una comida. Se da cuenta de que, a causa de una opinión que se le ha escapado, acaba de provocar una situación tensa en el grupo. ¿Qué cree que será para él lo más desagradable?", "o": ["El sentimiento de que algo va a dificultar notablemente el contacto.", "El pensamiento de que se le va a juzgar a causa de esta observación.", "El disgusto de haber hablado sin pensar."]}, {"p": "P... está jugando a las cartas con sus amigos; a pesar de sus esfuerzos, pierde varias veces seguidas. ¿Cuál es según usted su reacción más probable?", "o": ["“Después de todo, esta tarde he aprendido bastante. Seguramente ganaré la próxima vez.”", "“Siempre ocurre lo mismo; el juego de las cartas no se me da bien”", "“Realmente no estoy en forma esta tarde”"]}, {"p": "R... está sentado en un cine al lado de personas que no se callan y hacen frecuentes comentarios ¿cómo se comportará R...?", "o": ["Rogarles que se callen.", "Cambiar de lugar.", "Concentrarse más en la película para evitar la molestia."]}, {"p": "T... trabaja en una gran empresa. Ha efectuado algunos cambios en la organización del trabajo y es muy criticado por gran parte de sus colegas. ¿Cuál será la reacción de T...?", "o": ["Tratar de justificar ante sus colegas.", "Pensar que, en cualquier caso, nunca se consigue la unanimidad.", "Replantearse el problema."]}, {"p": "¿Qué piensa usted cuando ve un niño enfrentarse a los adultos?", "o": ["Está mal educado.", "Probablemente tiene serias dificultades en sus relaciones con los demás.", "Posee una fuerte personalidad."]}, {"p": "M... debe contratar a un colaborador que se encargará de la dirección de un servicio. Teniendo en cuenta el hecho de que tendrá responsabilidad jerárquica, ¿a cuál de las siguientes cualidades dará M... más importancia?", "o": ["Tener autoridad.", "Ser convincente.", "Ser justo."]}, {"p": "Entre los siguientes estilos de conducir un automóvil en carretera, ¿cuál le parece preferible?", "o": ["Pensando en la mecánica y en la seguridad, apenas fuerzan la velocidad de su vehículo.", "Estimando que es tan peligroso circular demasiado despacio como demasiado de prisa, adelantan a los vehículos que obligan a ir lentamente.", "Toleran de mala gana no tener vía libre adelantando sistemáticamente a los vehículos que van delante de ellos."]}, {"p": "¿Qué es lo que más valora cuando usted va a un restaurante?", "o": ["Una buena cocina.", "Un ambiente agradable.", "La posibilidad de comer el plato especial de la casa."]}, {"p": "Una señora va de compras a un almacén que se encuentra bastante lejos de su casa. En la puerta del almacén se da cuenta que ha olvidado su monedero y su chequera. Sin tener en cuenta el tiempo del que dispone ¿qué piensa usted que hará?", "o": ["Volver a su casa, a buscar lo que ha olvidado.", "Ver si conoce a alguien por la zona, que pueda prestarle dinero o tratar de que le vendan a crédito.", "Dejar las compras para otra ocasión y aprovechar la oportunidad para dar un paseo por el barrio."]}, {"p": "N... está soltero; ha tenido un año de trabajo muy fuerte y debe tomar una decisión sobre sus vacaciones; ¿Qué elegirá?", "o": ["Pasar un mes en las costas para poder leer, caminar y descansar.", "Visitar una región del país que no conoce.", "Hacer una larga marcha a pie o en bicicleta porque piensa que el deporte es el mejor de los descansos."]}, {"p": "A su forma de ver, ¿cuál es la mejor manera de descansar durante el fin de semana, para un hombre que trabaja todos los demás días?", "o": ["Reunirse con los amigos.", "Ir al cine.", "Leer."]}, {"p": "Si usted dispusiera de un año de libertad y de los medios necesarios para hacer lo que quisiera ¿cuál de las actividades siguientes elegiría?", "o": ["Dar la vuelta al mundo en solitario a bordo de un velero.", "Participar en una carrera automovilística Madrid – Bombay.", "Visitar el mayor número posible de países."]}, {"p": "Un empleado administrativo incorporado recientemente a la empresa, pide a X..., uno de sus compañeros, que le preste una pequeña suma de dinero hasta el mes siguiente. ¿Qué hará X...?", "o": ["Le prestará el dinero, sin ninguna pregunta para no ponerle en un aprieto.", "Le prestará el dinero porque a él le gustaría que le hicieran lo mismo si lo necesitara.", "No le dará el dinero, considerando que su compañero, tiene probablemente, buenos amigos dispuestos a ayudarle."]}, {"p": "B... se ha puesto, sin quererlo, fuera de la legalidad y debe escoger a un abogado para que le defienda. ¿Sobre cuál de los criterios siguientes buscará su elección?", "o": ["Su reputación de elocuencia.", "Sus buenas relaciones con la magistratura.", "Su perspicacia psicológica."]}, {"p": "E... ha sido nombrado recientemente para un puesto que implica responsabilidades jerárquicas importantes. ¿Qué actitud tomará probablemente frente a sus subordinados?", "o": ["Modificar su forma de mandar según las personas y circunstancias.", "Fijarse un sistema de mando bien elaborado e idéntico para todos.", "Basándose en la experiencia, dejarse guiar por su intuición."]}, {"p": "L... tiene que hablar sobre informática a empleados que no tienen ningún conocimiento en este campo. ¿Cuál de las siguientes alternativas le dará menos problemas?", "o": ["Utilizar un vocabulario comprensible para todo el mundo.", "Interesar al auditorio y mantener su atención.", "Hacer participar a todos los asistentes."]}, {"p": "M... asiste a un partido de fútbol entre dos equipos muy conocidos. El partido es muy disputado y los dos equipos rinden al máximo. Entre los espectadores el entusiasmo es tremendo. ¿Qué hace M...?", "o": ["M... se contenta con aplaudir las jugadas más brillantes.", "M... es dominado por la agitación general: grita y gesticula con los otros.", "M... discute con sus vecinos sobre las jugadas de los futbolistas."]}, {"p": "B... atraviesa la calle por un paso de peatones con el semáforo en rojo. Un coche llega a gran velocidad y se detiene repentinamente a pocos centímetros de B. ¿Cuál será la reacción inmediata de este?", "o": ["Hará una observación irónica al mismo tiempo que maldice interiormente al conductor.", "Dará airadamente su opinión al conductor sobre su manera de conducir.", "Lanzará al conductor algunos insultos que no puede reprimir."]}, {"p": "A su modo de ver, ¿cuál es entre los siguientes aspectos el más desatendido actualmente en la educación de su hijo?", "o": ["La aceptación de responsabilidad.", "El gusto por el trabajo bien hecho.", "La capacidad para desenvolverse rápidamente."]}, {"p": "T... acaba de fracasar en un examen, uno de sus amigos le dice que algunos de los fracasos son útiles en la vida. ¿Qué responderá él?", "o": ["“Se ve que no estás en mi lugar; yo preferiría no pasar por esto”.", "“Puede que tengas razón.”", "“Admite por lo menos, que cuando ocurre es difícil de aceptar”."]}, {"p": "L... se encuentra en una reunión amistosa; sabe muy bien que la mayor parte de las personas presentes tienen opiniones muy diferentes a las suyas. ¿Qué piensa usted que hará?", "o": ["Evitar toda discusión.", "Provocar la discusión.", "Dar su opinión si no puede evitarlo."]}, {"p": "¿Qué cualidad le parece más útil en las relaciones sociales?", "o": ["La tolerancia.", "La sinceridad.", "La aceptación de los compromisos."]}, {"p": "M... acaba de modificar totalmente su apartamento; invita a sus amigos a la inauguración; entre los cumplidos que le hagan, ¿cuál será para él, el más agradable?", "o": ["Una felicitación sobre su buen gusto.", "Un elogio sobre la forma en que ha sacado partido de la disposición de las habitaciones.", "Una alabanza a su originalidad, por su decoración, ya que esta no se parece a ninguna otra antes vista."]}, {"p": "S... llega en el momento de una discusión entre 2 personas a las que conoce poco. El tema del que hablan, muy específico, le es totalmente desconocido y apenas le interesa. ¿Cuál será su reacción?", "o": ["Interviene para informarse, bajo riesgo de parecer ignorante.", "Trata de interesarse porque no quiere parecer incorrecto.", "No interviene, porque no puede aportar un punto de vista interesante sobre el asunto."]}, {"p": "R... llega con un retraso a una reunión de copropietarios ¿qué es lo que probablemente le molestará más?", "o": ["La idea de que hayan podido aprovecharse de su ausencia para tomar una decisión con la que él no esté de acuerdo.", "El temor de tener dificultad para integrarse en la discusión.", "La perspectiva de parecer descortés."]}, {"p": "Se ha pedido a F... un informe lo más objetivo posible, por su modo de ser. ¿A quién elegirá F... para que lo haga?", "o": ["Su mujer.", "Un grupo de amigos.", "Él mismo."]}, {"p": "X... quiere construir una casa. ¿Cuál de las siguientes alternativas elegirá?", "o": ["Llamar a un arquitecto.", "Hacer los planos él mismo y trabajar directamente con un constructor.", "Hacer los planos con un amigo que acaba de hacer una casa."]}, {"p": "T... es un hombre de negocios generalmente muy ocupado. Una cita anulada a última hora le permite tener una mañana libre totalmente imprevista; ¿Cómo cree usted que la utilizará?", "o": ["Aprovechará para levantarse pronto y pasar la mañana practicando su deporte favorito.", "Hará el balance de la semana que acaba de pasar.", "Para él es una ocasión muy poco habitual de poder “perder su tiempo” y la aprovechará."]}, {"p": "D... va a ir a un país del que no conoce nada; para preparar su viaje, ¿qué cree usted que hará?", "o": ["Leer libros y guías sobre el país.", "Preguntar a amigos o parientes que conocen bien el país.", "Esperar a estar en el país para ver e informarse."]}, {"p": "Se oye frecuentemente decir que si una persona cae de repente sobre la acera a las seis de la tarde, un momento en que las calles están abarrotadas, ningún peatón se detiene para ofrecer su ayuda a la persona en dificultades. ¿A qué cree usted que se debe esta conducta?", "o": ["A una fatal indiferencia por lo que le pueda ocurrir a los demás.", "Al miedo ante una situación inesperada.", "Al temor de ocuparse de lo que no le compete a uno."]}, {"p": "Una señora va a consultar a un médico sobre una infección que le parece bastante banal. El médico la interroga ampliamente antes de examinarla. Ella contesta a las preguntas, pero en el fondo ¿qué pensará?", "o": ["“En su lugar yo comenzaría con el examen y preguntaría después.”", "“Él debe intentar conocer en qué circunstancias he adquirido esta enfermedad.”", "“Está bien que me haga preguntas, pero hay algunas en las que no veo relación alguna con lo que yo tengo.”"]}, {"p": "C... tiene que contratar empleados de oficina, dispone de poco tiempo. ¿Qué método empleará?", "o": ["Tener una entrevista con los candidatos.", "Examinar su currículum vitae y sus referencias.", "Hacerles una prueba práctica en el trabajo."]}, {"p": "El mejor delegado de personal es aquel que:", "o": ["Es un buen negociador.", "Está convencido de la justicia de la reivindicación.", "Está bien integrado con el personal."]}, {"p": "La señora D... trata inútilmente de hacer que coma su hijo de 5 años; éste se resiste violentamente. ¿Qué hará ella?", "o": ["Forzarle a comer considerando que el niño lo hace por capricho.", "Hacerle un pequeño chantaje del tipo “demuestra a mamá que eres bueno y que la quieres”", "Dejar al niño, pensando que comerá más en la comida siguiente."]}, {"p": "Se habla frecuentemente del respeto a las “reglas de juego.” En general se trata de:", "o": ["De una disposición profunda, estable y claramente definida.", "De la aceptación a desempeñar en cada instante el papel que conviene.", "De una sumisión sincera a las costumbres del grupo."]}, {"p": "C... es aficionado al bricolaje, decide tapizar él mismo un sillón valioso. Cuando llega a la mitad de su trabajo, se da cuenta que corre peligro de fracasar en su intento. ¿Cuál será su decisión?", "o": ["Confiar el sillón a un especialista que realizará un trabajo impecable.", "Deshacer lo que ya ha hecho y comenzar otra vez desde cero.", "Dejar durante unos días su trabajo para reemprenderlo cuando esté en mejores condiciones."]}, {"p": "C... va a ir con su mujer al campo durante los días de Pascua. Previendo la afluencia, ha reservado boletos de tren. Salen de su casa a la hora justa, pero en un embotellamiento en los alrededores de la estación les hace perder el tren. ¿Cómo cree usted que reaccionará?", "o": ["“Siempre pasa lo mismo. Si hubiera estado listo antes no hubiera pasado.”", "“Se han fastidiado las vacaciones... No me apetece viajar parado en el tren siguiente.”", "“¡Qué le vamos a hacer! Voy a devolver los boletos y nos quedamos en casa.”"]}, {"p": "A su juicio, la mayoría de los fracasos son debido a:", "o": ["Incapacidad.", "Coincidencia de circunstancias negativas.", "Fallas ocasionales."]}, {"p": "F... ha encargado un refrigerador. En su ausencia lo entregan en la casa del conserje. El empaque está estropeado, por lo que el refrigerador ha sufrido algunos daños. F... decide hacer una gestión ante los servicios de distribución. ¿De qué forma se comportará?", "o": ["Escribirá a los citados servicios conservando una copia de la carta.", "Irá personalmente a reclamar.", "Rogará a uno de sus amigos, empleado en esa casa, que intervenga."]}, {"p": "Con ocasión de un viaje organizado, B... se encuentra con personas que no conoce. Al cabo de unos días se da cuenta de que la mayoría de las personas le tienen poca simpatía. ¿Cómo cree usted que reaccionará?", "o": ["Le tiene sin cuidado, porque para él lo importante es que el viaje esté bien organizado y que el guía sea eficaz.", "Está un poco molesto y trata de hacer un esfuerzo para resultar más simpático.", "Esto le amarga, en parte sus acciones y propone que para la próxima ocasión se irá con sus amigos."]}, {"p": "R... hace un viaje con algunos amigos. Una tarde el grupo se separa después de haberse puesto de acuerdo en la hora para la salida. A lo largo de la tarde R... descubre un monumento que le interesa mucho visitar, pero si lo hace, le será imposible llegar a la cita. ¿Qué hará?", "o": ["Hacer la visita porque considera que ya no tendrá la ocasión de visitar este lugar y que de todas maneras habrá otros que también llegarán tarde.", "Renunciar a esta visita porque le parece más importante no hacer esperar a los demás.", "Tratar de encontrar a sus amigos para persuadirles de que hagan la visita con él, aun a riesgo de desorganizar la última parte del viaje."]}, {"p": "¿Cuál de estas profesiones le parece a usted la más envidiable?", "o": ["Gerente de una pequeña empresa.", "Director adjunto de una empresa internacional.", "Asesor científico de alto nivel."]}, {"p": "A raíz de un accidente que ha causado la muerte de los padres de un niño pequeño, J... tiene que encargarse del niño con carácter definitivo. ¿Cuál será la actitud más probable que tendrá al respecto?", "o": ["Teme verse obligado a revisar su sistema de educación.", "Confía en el buen carácter del niño.", "Busca otras alternativas para el niño."]}, {"p": "Un amigo propone a T... llevarle en su velero a hacer un pequeño crucero. T... nunca ha practicado la vela. ¿Qué cree usted que decidirá?", "o": ["Aceptar, pensando que podrá desenvolverse bien.", "Arreglárselas para tener clases de vela antes en una escuela.", "No aceptar, ante el temor de ser una molestia para su amigo."]}, {"p": "T... va hacia el trabajo por su camino habitual. Una furgoneta de reparto bloquea por buen rato una calle estrecha. A juicio de usted, ¿qué será lo más desagradable para T...?", "o": ["La perspectiva de llegar tarde a su despacho.", "El hecho de tener que esperar sin poderse mover ni hacer nada.", "Los toques de claxon inútiles de los demás automovilistas."]}, {"p": "G... trabaja para una empresa por la que debe efectuar frecuentes desplazamientos. Acostumbra a hacer 2 horas de atletismo todas las semanas en una sesión de entrenamiento colectivo. A juicio de usted, ¿cuál es su actitud en el curso de esta sesión?", "o": ["Insiste en ciertas especialidades que le permitan mantenerse en buena forma.", "Realiza todas las actividades propuestas, pero sin esforzarse demasiado, porque tiene un trabajo cansado.", "Se entrega a fondo y termina agotado, porque no concibe el deporte de otra manera."]}, {"p": "Según su criterio ¿cuál es la ventaja de tener un perro en un apartamento en la ciudad?", "o": ["Permite sentirse menos solo.", "Favorece la ocasión de poder caminar un poco cada día paseando al perro.", "Vigila el apartamento."]}, {"p": "En el transcurso de una reunión en que S... se ha encontrado con sus amigos, les propone terminar la velada en su casa. Al enterarse se une a ellos una persona que se mantenía alejada del grupo y a la que él estima poco. ¿Cuál será la reacción de S...?", "o": ["Piensa que, después de todo tendrá una ocasión de conocer mejor a esa persona.", "Estimando que se ha invitado a sí misma, no se ocupará de ella en toda la noche.", "Lamenta haber hablado demasiado alto."]}, {"p": "El director de un centro de delincuentes debe contratar a un nuevo educador. ¿A cuál de estas cualidades dará más importancia?", "o": ["Ser irreprochable y poder servir de modelo.", "Tener buenos conocimientos pedagógicos.", "Saber escuchar."]}, {"p": "Según su opinión ¿qué es más importante en una persona que da una fiesta?", "o": ["Permitir a todos expresarse.", "Invitar a personas que puedan coincidir con sus intereses.", "Cuidar de que a nadie, le falte nada."]}, {"p": "R... ha de exponer un proyecto a un colega que no conoce. Para que R... pueda hacerse comprender por su interlocutor, es preferible que:", "o": ["Sepa cuál es su formación académica.", "Conozca sus antecedentes profesionales.", "Lea el informe sobre un trabajo hecho a su colega."]}, {"p": "Si tuviera que hacer algún reproche a la profesión médica. ¿Cuál escogería?", "o": ["No consagra suficiente tiempo a cada enfermo.", "Da demasiada importancia al dinero.", "Utiliza a menudo un vocabulario incomprensible."]}, {"p": "N... tiene que escoger un programa de capacitación para las personas de su departamento. Desearía una capacitación interesante para todos, pero a la vez, eficaz y rentable. ¿Qué elegiría?", "o": ["Un plan organizado en función de las necesidades del departamento y en el que todas las fases estén definidas de antemano.", "Un plan que tenga en cuenta a cada participante.", "Un plan que incluya en forma regular exámenes de control."]}, {"p": "M... acaba de tener un ataque al hígado. Sin embargo, un amigo le llama para invitarle a comer, precisando que le ha preparado su plato favorito. Sabiendo que este plato está contraindicado para él en este momento, ¿cuál será la reacción de M...?", "o": ["Aceptar la invitación pensando que por una vez no hará caso de su régimen.", "Proponer que se aplace esta invitación para más adelante; para cuando se acabe su régimen."]}, {"p": "M... no está satisfecho con la Seguridad Social. Lo que más le desagrada es:", "o": ["Lo absurdo de algunas disposiciones de esta entidad.", "La gran dificultad de atenerse a la complejidad de su reglamentación.", "La falta de atención a aspectos que él cree fundamentales."]}, {"p": "Y... ha decidido dedicar parte de su tiempo libre a personas de la tercera edad. Existen varias posibilidades. ¿Cuál elegirá cuando no haya otras alternativas?", "o": ["Acompañar a las personas ancianas durante el paseo.", "Visitar a una persona mayor cada semana.", "Hacer colectas para la construcción de un hogar de ancianos."]}, {"p": "Entre los siguientes argumentos publicitarios ¿cuál tiene más probabilidades de influir en el público?", "o": ["La muestra.", "El “Slogan”.", "El testimonio de una estrella."]}, {"p": "En el transcurso de un viaje en tren, N... se encuentra en un vagón abarrotado. Su vecino fuma y el humo le molesta mucho, ya le ha pedido que deje de fumar sin resultado. ¿Qué hará?", "o": ["Pedir el parecer de otros pasajeros en el vagón.", "Abrir la ventana.", "Hablar nuevamente con su vecino para convencerle que deje de fumar."]}, {"p": "El Director de una empresa de productos alimenticios desea lanzar al mercado un nuevo postre. Dispone de un presupuesto que puede repartir en los 3 conceptos que se citan a continuación. ¿En cuál de ellos invertirá más dinero?", "o": ["En estudios de mercado para conocer los gustos de los futuros compradores.", "En publicidad para dar a conocer su producto.", "En la investigación de envases y presentación."]}, {"p": "B... toma parte de una discusión muy animada en el transcurso de la cual sus opiniones son muy atacadas. Entre las actitudes siguientes, ¿cuál será la que adopte?", "o": ["Tratar por todos los medios de convencer a todos los demás.", "Divertirse simplemente en el juego de la discusión.", "Dejarse convencer cuando vea que su posición es poco defendible."]}, {"p": "Cuando usted va a un restaurante, ¿qué tipo de platillo prefiere?", "o": ["Uno que ya conoce y que le gusta de un modo especial.", "La especialidad de la casa.", "Un plato exótico que usted desconoce en lo absoluto."]}, {"p": "Después de un naufragio, C... llega solo a una isla desierta. El clima es muy agradable y la vegetación le permitirá encontrar el alimento necesario. ¿Qué es a su modo de ver, lo que probablemente le creará más problemas?", "o": ["El carácter nuevo e insólito de la situación.", "La soledad.", "La falta de algunos atractivos de la vida anterior."]}, {"p": "J... dirige una importante firma automovilística. Puede escoger entre varias políticas comerciales. ¿Cuál elegirá?", "o": ["Orientar sus esfuerzos para sacar de vez en cuando modelos especiales.", "Buscar los efectos de moda y atender a una clientela particular.", "Ofrecer de ordinario modelos clásicos."]}];
+var N = ITEMS.length, LET = ['A','B','C'];
+
+(function(){
+  var QS = new URLSearchParams(location.search);
+  var LOCKED = (QS.get('bloquear')||'').split(',').map(function(s){return s.trim();}).filter(Boolean);
+  var DEMO = !/^https?:\/\//.test(CONFIG.endpoint) || CONFIG.endpoint.indexOf('PEGAR_AQUI') >= 0;
+  var STORE_KEY = 'erea_' + CONFIG.prueba.toLowerCase() + '_v1_' + (QS.get('empresa')||'general');
+  var QUEUE_KEY = 'erea_' + CONFIG.prueba.toLowerCase() + '_cola_envios';
+
+  var st = load() || {datos:{}, resp:[], q:0, step:'portada', id:uid(), inicio:null};
+  while (st.resp.length < N) st.resp.push(null);
+
+  function $(id){return document.getElementById(id);}
+  function uid(){return 'S' + Date.now().toString(36) + Math.random().toString(36).slice(2,8);}
+  function save(){try{localStorage.setItem(STORE_KEY, JSON.stringify(st));}catch(e){}}
+  function load(){try{var s=localStorage.getItem(STORE_KEY);return s?JSON.parse(s):null;}catch(e){return null;}}
+  function clearSave(){try{localStorage.removeItem(STORE_KEY);}catch(e){}}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  if (DEMO) $('demoBar').hidden = false;
+
+  /* ---------- IP pública y zona horaria (para auditoría) ---------- */
+  function obtenerIP(){
+    if (st.ip) return Promise.resolve(st.ip);
+    var urls = ['https://api.ipify.org?format=json', 'https://api64.ipify.org?format=json'];
+    function intento(k){
+      if (k >= urls.length) return Promise.resolve('');
+      var ctl = window.AbortController ? new AbortController() : null;
+      var t = setTimeout(function(){ if (ctl) ctl.abort(); }, 4000);
+      return fetch(urls[k], ctl ? {signal: ctl.signal} : {}).then(function(r){ return r.json(); })
+        .then(function(j){ clearTimeout(t); st.ip = j.ip || ''; save(); return st.ip; })
+        .catch(function(){ clearTimeout(t); return intento(k + 1); });
+    }
+    return intento(0);
+  }
+  obtenerIP();
+  var ZONA = ''; try { ZONA = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch(e) {}
+
+  /* ---------- prefill ---------- */
+  CONFIG.campos.forEach(function(c){ if (QS.get(c.id)) st.datos[c.id] = QS.get(c.id); });
+  var emp = st.datos.empresa || QS.get('empresa') || '';
+  if (emp){ $('metaEmpresa').textContent = emp; $('hdrEmpresa').textContent = emp; }
+  else $('metaEmpresa').parentNode.hidden = true;
+
+  /* ---------- navegación ---------- */
+  function show(step){
+    st.step = step; save();
+    document.body.classList.toggle('qmode', step === 'preguntas');
+    document.querySelectorAll('[data-step]').forEach(function(s){ s.hidden = s.getAttribute('data-step') !== step; });
+    var pct = {portada:0, datos:6, instrucciones:12, revision:96, fin:100}[step];
+    if (step === 'preguntas') pct = 15 + Math.round(80 * st.q / N);
+    $('progBar').style.width = pct + '%';
+    if (step === 'preguntas') renderQ();
+    if (step === 'revision') renderSummary();
+    window.scrollTo(0,0);
+  }
+  document.querySelectorAll('[data-go]').forEach(function(b){ b.onclick = function(){ show(b.getAttribute('data-go')); }; });
+
+  /* ---------- portada ---------- */
+  $('consent').checked = !!st.consent;
+  $('btnStart').disabled = !st.consent;
+  $('consent').onchange = function(){ st.consent = this.checked; $('btnStart').disabled = !this.checked; save(); };
+  $('btnStart').onclick = function(){ if (!st.inicio) st.inicio = new Date().toISOString(); show('datos'); };
+
+  /* ---------- datos ---------- */
+  var form = $('formDatos');
+  CONFIG.campos.filter(function(c){return c.visible;}).forEach(function(c){
+    var locked = LOCKED.indexOf(c.id) >= 0 && st.datos[c.id];
+    var val = st.datos[c.id] || '';
+    var html = '<div class="f' + (c.id==='empresa'?' full':'') + '" data-f="'+c.id+'"><label for="f_'+c.id+'">' + esc(c.etiqueta) + (c.requerido?' <span class="req">*</span>':'') + '</label>';
+    if (c.opciones && c.opciones.length && !locked){
+      html += '<select id="f_'+c.id+'"><option value="">Seleccione…</option>' + c.opciones.map(function(o){return '<option'+(o===val?' selected':'')+'>'+esc(o)+'</option>';}).join('') + '</select>';
+    } else {
+      html += '<input id="f_'+c.id+'" type="'+(c.tipo==='date'?'date':'text')+'" value="'+esc(val)+'"'+(locked?' readonly':'')+(c.auto?' autocomplete="'+c.auto+'"':'')+(c.tipo==='date'?' max="'+new Date().toISOString().slice(0,10)+'"':'')+'>';
+    }
+    html += '<div class="hint"></div></div>';
+    form.insertAdjacentHTML('beforeend', html);
+  });
+  form.addEventListener('input', function(e){
+    var id = e.target.id.replace('f_',''); st.datos[id] = e.target.value.trim(); save();
+    var f = e.target.closest('.f'); f.classList.remove('bad'); f.querySelector('.hint').textContent='';
+  });
+  form.addEventListener('change', function(e){ var id = e.target.id.replace('f_',''); st.datos[id] = e.target.value.trim(); save(); });
+  $('btnDatos').onclick = function(){
+    var ok = true, first = null;
+    CONFIG.campos.filter(function(c){return c.visible;}).forEach(function(c){
+      var el = $('f_'+c.id), v = (el.value||'').trim(), f = el.closest('.f'), msg = '';
+      st.datos[c.id] = v;
+      if (c.requerido && !v) msg = 'Campo obligatorio';
+      if (!msg && c.tipo==='date' && v){ var y = +v.slice(0,4), now = new Date().getFullYear(); if (y < now-90 || y > now-14) msg = 'Revise la fecha'; }
+      f.classList.toggle('bad', !!msg); f.querySelector('.hint').textContent = msg;
+      if (msg){ ok = false; first = first || el; }
+    });
+    save();
+    if (!ok){ first.focus(); return; }
+    show('instrucciones');
+  };
+  $('btnInstr').onclick = function(){ show('preguntas'); };
+
+  /* ---------- preguntas ---------- */
+  function narrow(){ return window.innerWidth < 420; }
+  function cnt(){ var n = st.resp.filter(function(x){return x;}).length; return narrow() ? n + ' de ' + N : n + ' de ' + N + ' respondidas'; }
+  function renderQ(){
+    var q = st.q, it = ITEMS[q], r = st.resp[q];
+    $('qEyebrow').textContent = 'Situación ' + (q+1) + ' de ' + N;
+    $('qText').textContent = it.p;
+    $('qBox').innerHTML = it.o.map(function(t, i){
+      var L = LET[i], on = r === L;
+      return '<label class="op'+(on?' on':'')+'"><input type="radio" name="op" value="'+L+'"'+(on?' checked':'')+'><span class="lt">'+L+'</span><span class="tx">'+esc(t)+'</span></label>';
+    }).join('');
+    $('qErr').hidden = true;
+    $('qCounter').textContent = cnt();
+    $('btnNext').textContent = q === N-1 ? (narrow() ? 'Revisar' : 'Revisar y enviar') : 'Siguiente';
+    $('progBar').style.width = (15 + Math.round(80 * q / N)) + '%';
+  }
+  $('qBox').addEventListener('change', function(e){
+    st.resp[st.q] = e.target.value; save();
+    document.querySelectorAll('#qBox .op').forEach(function(l){ l.classList.toggle('on', l.querySelector('input').checked); });
+    $('qErr').hidden = true;
+    $('qCounter').textContent = cnt();
+  });
+  $('btnNext').onclick = function(){
+    if (!st.resp[st.q]){ $('qErr').textContent = 'Elija una opción para continuar.'; $('qErr').hidden = false; return; }
+    if (st.q < N-1){ st.q++; save(); renderQ(); window.scrollTo(0,0); }
+    else show('revision');
+  };
+  $('btnPrev').onclick = function(){ if (st.q > 0){ st.q--; save(); renderQ(); window.scrollTo(0,0); } else show('instrucciones'); };
+
+  /* ---------- teclado: A-C o 1-3 marcan, Enter continúa ---------- */
+  var KEYMAP = {a:'A',b:'B',c:'C','1':'A','2':'B','3':'C'};
+  document.addEventListener('keydown', function(e){
+    if (st.step !== 'preguntas' || e.ctrlKey || e.metaKey || e.altKey) return;
+    var t = e.target; if (t && /^(INPUT|SELECT|TEXTAREA)$/.test(t.tagName) && t.type !== 'radio') return;
+    var k = (e.key || '').toLowerCase();
+    if (KEYMAP[k]){
+      var el = document.querySelector('#qBox input[value="'+KEYMAP[k]+'"]');
+      if (el){ el.checked = true; el.dispatchEvent(new Event('change', {bubbles:true})); el.focus({preventScroll:true}); e.preventDefault(); }
+    } else if (k === 'enter'){
+      e.preventDefault(); $('btnNext').click();
+    }
+  });
+
+  /* ---------- revisión ---------- */
+  function renderSummary(){
+    var h = '';
+    for (var q = 0; q < N; q++) h += '<button type="button" class="'+(st.resp[q]?'ok':'no')+'" data-q="'+q+'">'+(q+1)+(st.resp[q]?' ✓':' !')+'</button>';
+    $('sumBox').innerHTML = h;
+    var falt = st.resp.filter(function(x){return !x;}).length;
+    $('btnSend').disabled = falt > 0;
+    $('sendErr').hidden = falt === 0;
+    if (falt) $('sendErr').textContent = 'Faltan ' + falt + ' situación(es) por responder (marcadas en rojo).';
+  }
+  $('sumBox').onclick = function(e){ var b = e.target.closest('button'); if (!b) return; st.q = +b.getAttribute('data-q'); show('preguntas'); };
+  $('btnBackQ').onclick = function(){ st.q = N-1; show('preguntas'); };
+
+  /* ---------- envío ---------- */
+  function payload(){
+    var fin = new Date();
+    return {
+      submissionId: st.id, prueba: CONFIG.prueba, version: CONFIG.version,
+      datos: st.datos, respuestas: st.resp,
+      inicio: st.inicio, fin: fin.toISOString(),
+      duracionSeg: st.inicio ? Math.round((fin - new Date(st.inicio)) / 1000) : null,
+      ip: st.ip || '', zona: ZONA,
+      origen: location.href.split('#')[0], ua: navigator.userAgent.slice(0,180)
+    };
+  }
+  function post(p){
+    if (DEMO) return new Promise(function(res){ setTimeout(function(){ res({ok:true, folio:'DEMO-' + p.submissionId.slice(-5).toUpperCase(), demo:true}); }, 600); });
+    return fetch(CONFIG.endpoint, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(p), redirect:'follow'})
+      .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function(j){ if (!j.ok) throw new Error(j.error || 'Error del servidor'); return j; });
+  }
+  function sendWithRetry(p, tries){
+    return post(p).catch(function(err){
+      if (tries <= 1) throw err;
+      return new Promise(function(res){ setTimeout(res, (6 - tries) * 1500 + Math.random()*1000); }).then(function(){ return sendWithRetry(p, tries - 1); });
+    });
+  }
+  function queue(){ try{ return JSON.parse(localStorage.getItem(QUEUE_KEY) || '[]'); }catch(e){ return []; } }
+  function setQueue(q){ try{ localStorage.setItem(QUEUE_KEY, JSON.stringify(q)); }catch(e){} }
+  function flushQueue(){
+    var q = queue(); if (!q.length) return;
+    var p = q[0];
+    sendWithRetry(p, 3).then(function(){
+      setQueue(queue().filter(function(x){ return x.submissionId !== p.submissionId; }));
+      $('pendingBox').hidden = true; flushQueue();
+    }).catch(function(){});
+  }
+  $('btnSend').onclick = function(){
+    var btn = this; btn.disabled = true; btn.textContent = 'Enviando…'; $('sendErr').hidden = true;
+    obtenerIP().then(function(){ var p = payload(); enviar(p); });
+  };
+  function enviar(p){
+    sendWithRetry(p, 5).then(function(j){
+      clearSave();
+      if (j.folio){ $('finFolio').textContent = 'Código de confirmación: ' + j.folio; $('finFolio').hidden = false; }
+      if (j.demo) $('finMsg').textContent = 'Modo demostración: el cuestionario funcionó, pero las respuestas no se guardaron porque falta configurar el destino de datos.';
+      show('fin');
+    }).catch(function(){
+      var q = queue().filter(function(x){ return x.submissionId !== p.submissionId; }); q.push(p); setQueue(q);
+      clearSave();
+      $('finMsg').innerHTML = '<b>No hubo conexión estable para enviar.</b> Sus respuestas quedaron guardadas en este dispositivo y se enviarán automáticamente cuando vuelva la conexión. Por favor, vuelva a abrir este mismo enlace más tarde desde este dispositivo para completar el envío.';
+      show('fin');
+    });
+  }
+  window.addEventListener('online', flushQueue);
+  if (queue().length){
+    $('pendingBox').innerHTML = '<b>Hay un cuestionario pendiente de envío en este dispositivo.</b> Se está intentando enviar automáticamente.';
+    $('pendingBox').hidden = false; flushQueue();
+  }
+
+  /* ---------- arranque ---------- */
+  show(st.step === 'fin' ? 'portada' : st.step);
+})();
+</script>
+</body>
+</html>
