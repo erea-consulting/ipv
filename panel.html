@@ -154,7 +154,7 @@ input,select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(-
 /* ---- IPV ---- */
 .kpis.k6{grid-template-columns:repeat(6,1fr)}
 .filtLine{font-size:12px;color:var(--mute);margin:-6px 0 14px}.filtLine b{color:var(--ink)}
-.segGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px 22px}.segGrid h4{margin:0 0 6px;font-size:13px;color:var(--acc);letter-spacing:.04em}.segGrid .tbl{font-size:12px}.segGrid>div{break-inside:avoid}
+.segGrid{display:grid;grid-template-columns:1fr;gap:14px}.segGrid>div,.grid2>.card{min-width:0}svg.mx{display:block;max-width:100%!important;height:auto}.segGrid h4{margin:0 0 6px;font-size:13px;color:var(--acc);letter-spacing:.04em}.segGrid .tbl{font-size:12px}.segGrid>div{break-inside:avoid}
 .lv{display:inline-block;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;white-space:nowrap}
 .lv.b0{background:#F3DDD6;color:#8E3A24}.lv.b1{background:#F8ECE8;color:#9a3f28}.lv.b2{background:#EEF2EF;color:#3F4B45}
 .lv.b3{background:#E3F2EC;color:#1D6B52}.lv.b4{background:#D3EEE3;color:#17724F}.lv.b5{background:#BFE6D6;color:#0D5E4B}
@@ -237,16 +237,16 @@ input,select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(-
   <div class="kpis k6" id="kpis"></div>
   <div class="kicker" id="consKicker"></div>
   <div class="card" style="margin-bottom:22px"><h3>Perfil promedio del grupo</h3><div id="chPerfil"></div><div class="src">Decatipo promedio (1 a 10). Franjas de fondo: Muy bajo (1), Bajo (2-3), Medio (4-6), Alto (7-8), Muy alto (9) y Altísimo (10).</div></div>
-  <div class="card" style="margin-bottom:22px"><h3>Distribución de niveles</h3><div class="wrap" id="tblDist"></div><div class="src">Número de personas en cada nivel (y % del grupo filtrado).</div></div>
+  <div class="card" style="margin-bottom:22px"><h3>Distribución de niveles</h3><div class="wrap" id="tblDist"></div><div class="src">Matrix plot: el tamaño y el tono del cuadrado indican cuántas personas hay en cada nivel (pase el cursor para ver el %).</div></div>
   <div class="card" style="margin-bottom:22px">
    <div class="bar" style="margin:0 0 10px"><h3 style="border:0;margin:0;padding:0" class="grow">Segmentación</h3><label style="font-size:12px">Agrupar por <select id="grpBy"></select></label></div>
    <div class="wrap" id="tblSeg"></div>
-   <div class="src">Decatipo promedio por escala; verde: Alto o más (≥ 7), terracota: Bajo (≤ 3). Grupos con menos de 5 personas se marcan con *: interpretar con cautela.</div>
+   <div class="src">Matrix plot del decatipo promedio (1 a 10): cuadrado más grande y más oscuro = puntaje más alto. Entre paréntesis, personas del grupo; a la derecha, estilo predominante y personas bajo el mínimo para venta. Grupos con menos de 5 personas (*): interpretar con cautela.</div>
   </div>
-  <div class="card sec flow" style="margin-bottom:22px"><h3>Resultados por características del participante</h3><div class="segGrid" id="segDims"></div><div class="src">Decatipo promedio en Disposición para la venta (DGV), Receptividad (R) y Agresividad (A); estilo predominante y personas por debajo del mínimo para venta. Grupos con menos de 5 personas (*): interpretar con cautela. Para ver todas las escalas de un grupo, use «Agrupar por» o los filtros.</div></div>
+  <div class="card sec flow" style="margin-bottom:22px"><h3>Resultados por características del participante</h3><div class="segGrid" id="segDims"></div><div class="src">Matrix plot del decatipo promedio (1 a 10) por grupo; a la derecha, estilo predominante y personas bajo el mínimo para venta. Grupos con menos de 5 personas (*): interpretar con cautela.</div></div>
   <div class="grid2">
    <div class="card"><h3>Estilo de venta del grupo</h3><div id="chEstilo"></div><div class="src">Receptivo: Receptividad al menos 2 puntos por encima de Agresividad. Conquistador: Agresividad al menos 2 puntos por encima. Equilibrado: diferencia menor a 2.</div></div>
-   <div class="card"><h3>Personas por debajo del mínimo para venta</h3><div id="tblBrecha"></div><div class="src">Criterio EREA: para puestos comerciales se espera al menos nivel Medio (≥ 4) en Disposición para la venta, Receptividad y Agresividad; en Supervisión, Jefatura, Gerencia y Dirección, además en Control de sí y Dominancia.</div></div>
+   <div class="card"><h3>Personas por debajo del mínimo para venta</h3><div id="tblBrecha"></div><div class="src">Decatipo de cada persona en las escalas del mínimo; en terracota, las que quedan por debajo de 4 (III y VI solo aplican a mandos). Criterio EREA: para puestos comerciales se espera al menos nivel Medio (≥ 4) en Disposición para la venta, Receptividad y Agresividad; en Supervisión, Jefatura, Gerencia y Dirección, además en Control de sí y Dominancia.</div></div>
   </div>
   <div class="card" style="margin-bottom:22px" id="cardDisc"><h3>Cruce con DISC</h3><div id="tblDisc"></div></div>
   <div class="card"><h3>Alertas de calidad de respuesta</h3><div id="tblAlertas"></div></div>
@@ -458,6 +458,49 @@ function svgPerfil(rows){
     y+=rh; });
   return s+'</svg>';
 }
+/* ---------- Matrix Plot EREA (misma gramática que rawgraphs.matrixplot del deck RAWGraphs EREA) ----------
+   Cuadrado por celda con área proporcional al valor, rampa secuencial verde EREA (más oscuro = más),
+   valor dentro (blanco sobre oscuro), ejes con marcas, leyenda Mayor/Menor. Acento terracota solo si se pide. */
+var MX_SEQ = ['#E6F2EE','#B8D8CC','#7FC2B8','#3FA396','#0D8B7D','#0D5E4B','#073E33'];
+var MX_TC = '#B4543A';
+function mxW(s, px){ return String(s).length * px * 0.56; }
+function svgMatrix(o){
+  var R = o.rows, C = o.cols, cs = o.cell || 38, fs = 12, vmax = o.vmax, vals = [];
+  R.forEach(function(r,i){ C.forEach(function(c,j){ var v = o.val(i,j); if (v != null && !isNaN(v)) vals.push(v); }); });
+  if (vmax == null) vmax = Math.max.apply(null, vals.concat([1]));
+  var lw = Math.max.apply(null, R.map(function(r){ return mxW(r.l, fs) + (r.s ? 0 : 0); }).concat([40])) + 18;
+  var rot = C.some(function(c){ return mxW(c, fs) > cs - 4; });
+  var th = rot ? Math.max.apply(null, C.map(function(c){ return mxW(c, fs); })) * 0.72 + 22 : 26;
+  var gw = C.length * cs, gh = R.length * cs, aw = o.after ? Math.max.apply(null, R.map(function(r,i){ return mxW(o.after(i), 11); }).concat([0])) + 14 : 0;
+  var legW = o.legend === false ? 0 : 108, W = lw + gw + aw + legW + 8, H = th + gh + 8;
+  var s = '<svg class="mx" viewBox="0 0 '+W+' '+Math.max(H, o.legend === false ? 0 : th + 150)+'" width="'+W+'" style="max-width:100%;height:auto" font-family="Arial, Helvetica, sans-serif">';
+  var x0 = lw, y0 = th;
+  s += '<line x1="'+x0+'" y1="'+(y0-6)+'" x2="'+x0+'" y2="'+(y0+gh)+'" stroke="#1E1E1E" stroke-width="1"/>';
+  s += '<line x1="'+x0+'" y1="'+(y0-6)+'" x2="'+(x0+gw)+'" y2="'+(y0-6)+'" stroke="#1E1E1E" stroke-width="1"/>';
+  C.forEach(function(c,j){ var cx = x0 + j*cs + cs/2;
+    s += '<line x1="'+cx+'" y1="'+(y0-6)+'" x2="'+cx+'" y2="'+(y0-11)+'" stroke="#1E1E1E"/>';
+    s += rot ? '<text transform="translate('+(cx+2)+','+(y0-14)+') rotate(-40)" font-size="'+fs+'" fill="#1E1E1E">'+esc(c)+'</text>'
+             : '<text x="'+cx+'" y="'+(y0-14)+'" font-size="'+fs+'" text-anchor="middle" fill="#1E1E1E">'+esc(c)+'</text>'; });
+  R.forEach(function(r,i){ var cy = y0 + i*cs + cs/2;
+    s += '<line x1="'+x0+'" y1="'+cy+'" x2="'+(x0-5)+'" y2="'+cy+'" stroke="#1E1E1E"/>';
+    s += '<text x="'+(x0-9)+'" y="'+(cy+4)+'" font-size="'+fs+'" text-anchor="end" fill="#1E1E1E"'+(r.b?' font-weight="bold"':'')+'>'+esc(r.l)+'</text>';
+    C.forEach(function(c,j){ var v = o.val(i,j); if (v == null || isNaN(v) || v <= 0) return;
+      var k = Math.min(MX_SEQ.length-1, Math.max(1, Math.round(Math.pow(Math.min(v,vmax)/vmax, 0.6)*(MX_SEQ.length-1))));
+      var col = (o.acento && o.acento(i,j,v)) || MX_SEQ[k], side = Math.max(5, (cs-6)*Math.sqrt(Math.min(v,vmax)/vmax));
+      var cx = x0 + j*cs + cs/2, txt = o.fmt(v), dark = col === MX_TC || k >= 3;
+      s += '<rect x="'+(cx-side/2)+'" y="'+(cy-side/2)+'" width="'+side+'" height="'+side+'" fill="'+col+'"><title>'+esc(o.tip ? o.tip(i,j,v) : (r.l+' · '+c+': '+txt))+'</title></rect>';
+      var cabe = mxW(txt, 11) < side - 2 && side >= 14;
+      s += '<text x="'+cx+'" y="'+(cy+4)+'" font-size="11" text-anchor="middle" fill="'+(cabe&&dark?'#FFFFFF':'#1E1E1E')+'"'+(cabe&&dark?' font-weight="bold"':'')+' pointer-events="none"'+'>'+esc(txt)+'</text>'; });
+    if (o.after) s += '<text x="'+(x0+gw+10)+'" y="'+(cy+4)+'" font-size="11" fill="#555">'+esc(o.after(i))+'</text>';
+  });
+  if (o.legend !== false){ var lx = x0 + gw + aw + 22, ly = y0;
+    s += '<text x="'+lx+'" y="'+(ly-2)+'" font-size="11" font-weight="bold" fill="#1E1E1E">'+esc(o.legTitle||'')+'</text>';
+    MX_SEQ.slice(1).reverse().forEach(function(c,q){ s += '<rect x="'+lx+'" y="'+(ly+6+q*18)+'" width="12" height="18" fill="'+c+'"/>'; });
+    s += '<text x="'+(lx+18)+'" y="'+(ly+18)+'" font-size="11" fill="#1E1E1E">Mayor</text><text x="'+(lx+18)+'" y="'+(ly+6+6*18-4)+'" font-size="11" fill="#1E1E1E">Menor</text>';
+    if (o.legAcento) s += '<rect x="'+lx+'" y="'+(ly+6+6*18+10)+'" width="12" height="12" fill="'+MX_TC+'"/><text x="'+(lx+18)+'" y="'+(ly+6+6*18+20)+'" font-size="11" fill="#1E1E1E">'+esc(o.legAcento)+'</text>';
+  }
+  return s + '</svg>';
+}
 function svgBarsH(items){
   var W=520,rh=34,H=items.length*rh+6,x0=200,w=W-x0-70, mx=Math.max.apply(null,items.map(function(i){return i.v;}))||1;
   var s='<svg viewBox="0 0 '+W+' '+H+'" width="100%" font-family="Arial">';
@@ -492,10 +535,11 @@ function renderCons(){
   $('kpis').innerHTML = k;
   $('consKicker').textContent = n ? '«Disposición para la venta en nivel '+ipvNivel(Math.round(m.DGV)).toLowerCase()+' ('+r1(m.DGV)+'). Estilo predominante: '+IPV.estilos[estTop][0].toLowerCase()+'. Su factor más alto es '+fz(ord[0]).corto.toLowerCase()+' y el más bajo, '+fz(ord[8]).corto.toLowerCase()+'»' : 'Sin datos para los filtros seleccionados';
   $('chPerfil').innerHTML = n ? svgPerfil(perfilRows(m, function(id){return ipvNivel(Math.round(m[id]));})) : '';
-  var h = '<table class="tbl"><thead><tr><th>Escala</th>'+NIV.map(function(l){return '<th class="num">'+l+'</th>';}).join('')+'</tr></thead><tbody>';
-  ORD.forEach(function(a,i){ var c = {}; D.forEach(function(x){ var lv = x.r.nivel[a]; c[lv]=(c[lv]||0)+1; });
-    h += '<tr><td>'+(i<3?'<b>'+a+' · '+esc(fz(a).corto)+'</b>':a+' · '+esc(fz(a).corto))+'</td>'+NIV.map(function(l,j){ var v=c[l]||0; return '<td class="num">'+(v?'<span class="lv b'+j+'">'+v+' ('+Math.round(100*v/n)+'%)</span>':'—')+'</td>'; }).join('')+'</tr>'; });
-  $('tblDist').innerHTML = h + '</tbody></table>';
+  var cnD = ORD.map(function(a){ var c = {}; D.forEach(function(x){ var lv = x.r.nivel[a]; c[lv]=(c[lv]||0)+1; }); return c; });
+  $('tblDist').innerHTML = n ? svgMatrix({ rows: ORD.map(function(a,i){ return {l: a+' · '+fz(a).corto, b: i<3}; }), cols: NIV,
+    val: function(i,j){ return cnD[i][NIV[j]]||null; }, fmt: function(v){ return String(v); },
+    tip: function(i,j,v){ return ORD[i]+' · '+fz(ORD[i]).corto+' · '+NIV[j]+': '+v+' persona'+(v===1?'':'s')+' ('+Math.round(100*v/n)+'%)'; },
+    legTitle: 'Personas' }) : '';
   $('chEstilo').innerHTML = n ? svgBarsH(['receptivo','conquistador','equilibrado'].map(function(e){ return {l:IPV.estilos[e][0], v:est[e], t:est[e]+' ('+Math.round(100*est[e]/n)+'%)', hi:e===estTop}; })) : '';
   renderSeg(D); renderDims(D); renderBrecha(brecha); renderDisc(D); renderAlertas(D);
   var fl = DIMS.filter(function(x){return FILT[x[0]];}).map(function(x){return x[1]+': <b>'+esc(FILT[x[0]])+'</b>';});
@@ -505,31 +549,38 @@ var DIMS_SEG = ['empresa','area','nivel','sede','edad_r','genero','antiguedad'];
 var ORDEN_DIM = {edad_r:['Menos de 25','25 a 34','35 a 44','45 a 54','55 o más','Sin dato'], antiguedad:['Menos de 1 año','1 a 3 años','3 a 5 años','5 a 10 años','Más de 10 años','Sin dato'], nivel:['Dirección','Gerencia','Jefatura','Supervisión / Coordinación','Administrativo / Técnico','Operativo','Sin dato']};
 function renderDims(D){
   var h = '';
-  DIMS_SEG.forEach(function(by){
-    var lab = DIMS.filter(function(x){return x[0]===by;})[0][1], g = {};
-    D.forEach(function(x){ var k = x.datos[by]||'Sin dato'; (g[k]=g[k]||[]).push(x); });
-    var keys = Object.keys(g), o = ORDEN_DIM[by];
-    keys.sort(o ? function(a,b){ return (o.indexOf(a)<0?99:o.indexOf(a)) - (o.indexOf(b)<0?99:o.indexOf(b)); } : function(a,b){ return g[b].length-g[a].length || a.localeCompare(b,'es'); });
-    h += '<div><h4>'+esc(lab)+'</h4><table class="tbl"><thead><tr><th>'+esc(lab)+'</th><th class="num">n</th><th class="num">DGV</th><th class="num">R</th><th class="num">A</th><th>Estilo</th><th class="num">Bajo mín.</th></tr></thead><tbody>';
-    keys.forEach(function(k){ var L = g[k], e = {}; L.forEach(function(x){ e[x.r.estilo]=(e[x.r.estilo]||0)+1; });
-      var et = Object.keys(e).sort(function(a,b){return e[b]-e[a];})[0];
-      h += '<tr><td>'+esc(k)+(L.length<5?' *':'')+'</td><td class="num">'+L.length+'</td>'+['DGV','R','A'].map(function(a){ var v = avg(L,function(x){return x.r.dec[a];}); return '<td class="num">'+hm(v, r1(v))+'</td>'; }).join('')+'<td>'+esc(IPV.estilos[et][0])+'</td><td class="num">'+cnt(L,function(x){return x.brecha.length;})+'</td></tr>'; });
-    h += '</tbody></table></div>';
+  DIMS_SEG.forEach(function(by, q){
+    var lab = DIMS.filter(function(x){return x[0]===by;})[0][1];
+    h += '<div><h4>'+esc(lab)+'</h4>'+matrizGrupos(grupos(D, by), lab, q===0)+'</div>';
   });
   $('segDims').innerHTML = h;
 }
+function grupos(D, by){
+  var g = {}; D.forEach(function(x){ var k = x.datos[by]||'Sin dato'; (g[k]=g[k]||[]).push(x); });
+  var keys = Object.keys(g), o = ORDEN_DIM[by];
+  keys.sort(o ? function(a,b){ return (o.indexOf(a)<0?99:o.indexOf(a)) - (o.indexOf(b)<0?99:o.indexOf(b)); } : function(a,b){ return g[b].length-g[a].length || a.localeCompare(b,'es'); });
+  return keys.map(function(k){ var L = g[k], m = {}, e = {}; ORD.forEach(function(a){ m[a] = avg(L,function(x){return x.r.dec[a];}); });
+    L.forEach(function(x){ e[x.r.estilo]=(e[x.r.estilo]||0)+1; }); var et = Object.keys(e).sort(function(a,b){return e[b]-e[a];})[0];
+    return {k:k, L:L, m:m, est:IPV.estilos[et][0], bajo:cnt(L,function(x){return x.brecha.length;})}; });
+}
+function matrizGrupos(G, lab, legend){
+  return svgMatrix({ rows: G.map(function(g){ return {l: g.k+' ('+g.L.length+')'+(g.L.length<5?' *':'')}; }), cols: ORD, vmax: 10,
+    val: function(i,j){ return G[i].m[ORD[j]]; }, fmt: r1,
+    tip: function(i,j,v){ return lab+' '+G[i].k+' · '+ORD[j]+' '+fz(ORD[j]).corto+': '+r1(v)+' ('+ipvNivel(Math.round(v))+')'; },
+    after: function(i){ return G[i].est+' · '+G[i].bajo+' bajo mín.'; }, legend: legend, legTitle: 'Decatipo' });
+}
 function renderSeg(D){
-  var by = $('grpBy').value, g = {};
-  D.forEach(function(x){ var key = x.datos[by]||'Sin dato'; (g[key]=g[key]||[]).push(x); });
-  var keys = Object.keys(g).sort(function(a,b){return g[b].length-g[a].length;});
-  var h = '<table class="tbl"><thead><tr><th>'+esc($('grpBy').selectedOptions[0].text)+'</th><th class="num">n</th>'+ORD.map(function(a){return '<th class="num">'+a+'</th>';}).join('')+'<th>Estilo predominante</th></tr></thead><tbody>';
-  keys.forEach(function(k){ var L=g[k], m={}, e={}; ORD.forEach(function(a){ m[a]=avg(L,function(x){return x.r.dec[a];}); }); L.forEach(function(x){e[x.r.estilo]=(e[x.r.estilo]||0)+1;});
-    var et = Object.keys(e).sort(function(a,b){return e[b]-e[a];})[0];
-    h += '<tr><td>'+esc(k)+(L.length<5?' *':'')+'</td><td class="num">'+L.length+'</td>'+ORD.map(function(a){return '<td class="num">'+hm(m[a], r1(m[a]))+'</td>';}).join('')+'<td>'+esc(IPV.estilos[et][0])+'</td></tr>'; });
-  $('tblSeg').innerHTML = h + '</tbody></table>';
+  var by = $('grpBy').value, lab = $('grpBy').selectedOptions[0].text;
+  $('tblSeg').innerHTML = D.length ? matrizGrupos(grupos(D, by), lab, true) : '';
 }
 function renderBrecha(L){
-  $('tblBrecha').innerHTML = L.length ? '<table class="tbl"><thead><tr><th>Persona</th><th>Puesto</th><th>Por debajo de 4 en</th></tr></thead><tbody>'+L.slice(0,15).map(function(x){return '<tr><td>'+esc(x.datos.nombre+' '+x.datos.apellido)+'</td><td>'+esc(x.datos.puesto)+'</td><td>'+x.brecha.map(function(a){return hm(x.r.dec[a], a+' '+x.r.dec[a]);}).join(' ')+'</td></tr>';}).join('')+'</tbody></table>'+(L.length>15?'<div class="src">… y '+(L.length-15)+' más (ver CSV).</div>':'') : '<p style="margin:0">Todo el grupo filtrado alcanza el mínimo esperado.</p>';
+  if (!L.length){ $('tblBrecha').innerHTML = '<p style="margin:0">Todo el grupo filtrado alcanza el mínimo esperado.</p>'; return; }
+  var S = ['DGV','R','A','III','VI'], M = L.slice(0,20);
+  $('tblBrecha').innerHTML = svgMatrix({ rows: M.map(function(x){ return {l: x.datos.nombre+' '+x.datos.apellido}; }), cols: S, vmax: 10, cell: 32,
+    val: function(i,j){ var a = S[j], x = M[i]; if ((a==='III'||a==='VI') && IPV.minPuesto.mandos.puestos.indexOf(x.datos.nivel)<0) return null; return x.r.dec[a]; },
+    fmt: function(v){ return String(v); }, acento: function(i,j,v){ return v < 4 ? MX_TC : null; },
+    tip: function(i,j,v){ var x = M[i]; return x.datos.nombre+' '+x.datos.apellido+' ('+x.datos.puesto+') · '+S[j]+' '+fz(S[j]).corto+': '+v+(v<4?' · por debajo del mínimo':''); },
+    legTitle: 'Decatipo', legAcento: 'Bajo 4' }) + (L.length>20?'<div class="src">… y '+(L.length-20)+' más (ver CSV).</div>':'');
 }
 function renderDisc(D){
   if (!DISC){ $('tblDisc').innerHTML = '<p style="margin:0">No conectado. Para cruzar con DISC, abra el panel CLEAVER en este equipo o complete «Cruzar con resultados DISC» al entrar. El cruce se hace por número de identidad.</p>'; return; }
