@@ -190,6 +190,14 @@ input,select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(-
 .hmc{display:inline-block;min-width:26px;text-align:center;padding:1px 4px;border-radius:3px}
 @media (max-width:900px){.tiles{grid-template-columns:1fr}.lect,.recs,.estilo{grid-template-columns:1fr}.kpis.k6{grid-template-columns:repeat(2,1fr)}.segGrid{grid-template-columns:1fr}}
 @media print{.sec.flow{break-inside:auto}.sec h3{break-after:avoid}.tiles{grid-template-columns:repeat(3,1fr)}.lect,.recs{grid-template-columns:1fr 1fr}.estilo{grid-template-columns:2fr 3fr}.kpis.k6{grid-template-columns:repeat(3,1fr)}.lect>div,.recs>div,.cruce{break-inside:avoid}}
+
+/* ---- idoneidad por rol (v2.0, 09-nov-2026) ---- */
+#vRol .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:12px 0}
+#vRol .kpi .v{font-size:28px;font-weight:bold;color:#005C52}#vRol .kpi .l{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#767676}#vRol .kpi .n{font-size:12px;color:#666}
+.rolbox{border:1px dashed #C9D3CE;border-radius:4px;padding:14px;margin:12px 0;background:#FAFBFB;font-size:13px}
+.aj{display:inline-block;padding:2px 8px;border-radius:3px;font-weight:bold;font-size:12px}.aj.Alto{background:#E3F2EC;color:#0D5E4B}.aj.Medio{background:#FDF0DE;color:#8a5a00}.aj.Bajo{background:#F3DDD6;color:#B4543A}
+.rolsec .ideal{display:flex;gap:10px;flex-wrap:wrap;font-size:13px}.rolsec .ideal span{border:1px solid #E8E8E8;border-radius:3px;padding:3px 8px}
+#vRol td.b,.rolsec td.b{color:#B4543A;font-weight:bold}#vRol td.s,.rolsec td.s{color:#0D5E4B;font-weight:bold}
 </style>
 </head>
 <body>
@@ -200,6 +208,7 @@ input,select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(-
   <div class="tabs" id="tabs" hidden>
    <button data-tab="consolidado" class="on">Consolidado</button>
    <button data-tab="individual">Individual</button>
+   <button data-tab="rol">Idoneidad por rol</button>
    <button data-tab="recargar">Actualizar</button>
   </div>
  </div>
@@ -263,6 +272,16 @@ input,select{font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(-
  </section>
 
  <!-- REPORTE -->
+
+ <section id="vRol" hidden>
+  <div class="bar noprint"><div class="grow" id="rolInfo" style="font-size:13px;color:#666"></div><button class="btn sec" id="btnRolCsv">Descargar CSV</button></div>
+  <div id="rolSinPerfil" class="rolbox" hidden>
+   <b>Sin perfiles por rol.</b> El backend no entregó <code>perfilesRol</code>. Puede cargar el archivo JSON de perfiles por rol (lo genera EREA desde la línea base del cliente); queda guardado en este equipo.
+   <div style="margin-top:8px"><input type="file" id="rolFile" accept="application/json"> <button class="btn sec" id="rolBorrar">Quitar</button></div>
+  </div>
+  <div class="kpis" id="rolKpis"></div>
+  <div class="sec"><h3 id="rolTitulo">Ajuste de cada persona al perfil de su rol</h3><div id="rolTabla"></div><div class="src" id="rolNota"></div></div>
+ </section>
  <section id="vRep" hidden>
   <div class="bar noprint"><button class="btn sec" id="btnBack">Volver</button><span class="grow"></span><button class="btn" onclick="window.print()">Imprimir / Guardar PDF</button></div>
   <div id="repBox"></div>
@@ -397,7 +416,7 @@ function cargar(){
      DATA.forEach(function(x){ x.alq = x.cal.map(function(q){return q.tipo;}); if (x.idRep) x.alq.push('ID repetido'); if (x.censo) x.alq.push(CENSO_TXT[x.censo] || x.censo); });
      $('hdrSub').textContent = DATA.length + ' respuestas · actualizado ' + new Date(j.generado).toLocaleString('es-HN');
      $('vLogin').hidden = true; $('tabs').hidden = false;
-     buildFilters(); tab('consolidado');
+     perfilesRolCargar(j); buildFilters(); tab('consolidado');
      cargarDisc();
    })
    .catch(function(e){ $('btnLogin').textContent='Entrar'; $('vLogin').hidden=false; $('loginErr').textContent = 'No se pudo conectar: ' + e.message; });
@@ -680,6 +699,98 @@ $('btnCsv').onclick = function(){
   var csv = '﻿' + [head].concat(rows).map(function(r){return r.map(function(v){v=v==null?'':String(v);return /[";\n,]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}).join(',');}).join('\n');
   var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})); a.download = 'IPV_resultados.csv'; a.click();
 };
+
+
+var FIPV = ['I','II','III','IV','V','VI','VII','VIII','IX','DGV','R','A'], F10 = ['I','II','III','IV','V','VI','VII','VIII','IX','DGV'];
+function ajusteRol(x){
+  var m = x.rol.ipv; if (!m) return null;
+  var out = {factores:{}, brechas:[], excesos:[], fueraObjetivo:[]};
+  FIPV.forEach(function(f){ var v=x.r.dec[f], rg=(m.rangos||{})[f]||[null,null]; var est = v<=3?'Brecha':(v>=9?'Exceso':'En rango'); var enObj = rg[0]!=null ? (v>=rg[0] && v<=rg[1]) : true; out.factores[f]={v:v, objMin:rg[0], objMax:rg[1], estado:est, enObjetivo:enObj}; if(est==='Brecha') out.brechas.push(f); if(est==='Exceso') out.excesos.push(f); if(!enObj) out.fueraObjetivo.push(f); });
+  var fuera = F10.filter(function(f){ return out.factores[f].estado!=='En rango'; }).length;
+  out.nivel = fuera<=1 ? 'Alto' : (fuera<=3 ? 'Medio' : 'Bajo'); out.orden = -fuera; out.estiloEsperado = m.estilo || ''; out.arquetipo = m.arquetipo || ''; return out;
+}
+var NOTA_ROL = 'Brecha: decatipo ≤ 3 · Exceso: decatipo ≥ 9 (cortes del manual). Objetivo: rango del arquetipo de venta del rol (línea base EREA). Sobre los 9 factores y la disposición general para la venta: Alto ≤ 1 fuera de rango · Medio ≤ 3 · Bajo el resto. Calibración aprobada el 09-nov-2026.';
+var CSV_ROL_HEAD = ['Folio','Nombre','Apellido','Empresa','Puesto','Área','Nivel','Rol','Arquetipo','Estilo esperado','Estilo observado'].concat(FIPV).concat(['Brechas','Excesos','Fuera del objetivo','Ajuste']);
+var CSV_ROL_NOMBRE = 'ipv_idoneidad_por_rol.csv';
+function csvRolFila(x){ var d=x.datos, a=x.rolAj; return [x.folio,d.nombre,d.apellido,d.empresa,d.puesto,d.area,d.nivel,rolNombre(x),a.arquetipo,a.estiloEsperado,x.r.estilo].concat(FIPV.map(function(f){return x.r.dec[f];})).concat([a.brechas.join(' '),a.excesos.join(' '),a.fueraObjetivo.join(' '),a.nivel]); }
+function tablaRol(L){
+  return '<div class="wrap"><table class="tbl"><thead><tr><th>Persona</th><th>Puesto</th><th>Arquetipo</th><th>Estilo esp. / obs.</th>'+F10.map(function(f){return '<th class="num" title="'+esc(fz(f).corto)+'">'+f+'</th>';}).join('')+'<th>Brechas</th><th>Excesos</th><th>Ajuste</th></tr></thead><tbody>'+L.map(function(x){ var a=x.rolAj;
+    return '<tr><td><a href="#" onclick="showReports([DATA.filter(function(y){return y.folio===\''+x.folio+'\'})[0]]);return false;">'+esc(x.datos.nombre+' '+x.datos.apellido)+'</a></td><td>'+esc(x.datos.puesto||'')+'</td><td>'+esc(a.arquetipo)+'</td><td>'+esc(a.estiloEsperado)+' / '+esc(x.r.estilo)+'</td>'+F10.map(function(f){ var e=a.factores[f]; return '<td class="num'+(e.estado==='Brecha'?' b':(e.estado==='Exceso'?' b':(e.enObjetivo?' s':'')))+'" title="objetivo '+(e.objMin!=null?e.objMin+'-'+e.objMax:'')+'">'+e.v+'</td>'; }).join('')+'<td>'+(a.brechas.join(', ')||'—')+'</td><td>'+(a.excesos.join(', ')||'—')+'</td><td>'+ajTag(a.nivel)+'</td></tr>'; }).join('')+'</tbody></table></div><div class="src">Terracota: brecha (≤ 3) o exceso (≥ 9) · verde: dentro del rango objetivo del arquetipo.</div>';
+}
+function seccionRol(x){
+  if (!x.rol) return PERFIL_ROL ? '<div class="sec rolsec"><h3>Cruce con el perfil de su rol</h3><p>El puesto no tiene perfil de rol asignado en la línea base del cliente.</p></div>' : '';
+  var a = x.rolAj; if (!a) return '<div class="sec rolsec"><h3>Cruce con el perfil de su rol · '+esc(rolNombre(x))+'</h3><p>El rol no es comercial: no tiene arquetipo de venta en la línea base.</p></div>';
+  var h = '<div class="sec rolsec"><h3>Cruce con el perfil de su rol · '+esc(rolNombre(x))+'</h3>';
+  h += '<p><b>Ajuste '+ajTag(a.nivel)+'</b> al arquetipo «'+esc(a.arquetipo)+'» (estilo esperado: '+esc(a.estiloEsperado)+'; observado: '+esc(x.r.estilo)+'). '+(a.brechas.length?'Brechas en '+a.brechas.map(function(f){return fz(f).corto;}).join(', ')+'. ':'')+(a.excesos.length?'Exceso en '+a.excesos.map(function(f){return fz(f).corto;}).join(', ')+'. ':'')+(a.fueraObjetivo.length?'Fuera del rango objetivo en '+a.fueraObjetivo.length+' de 12 escalas.':'Dentro del rango objetivo en todas las escalas.')+'</p>';
+  h += '<table class="tbl"><thead><tr><th>Escala</th><th class="num">Decatipo</th><th class="num">Objetivo del arquetipo</th><th>Estado</th></tr></thead><tbody>'+FIPV.map(function(f){ var e=a.factores[f]; return '<tr><td>'+f+' · '+esc(fz(f).corto)+'</td><td class="num'+(e.estado!=='En rango'?' b':(e.enObjetivo?' s':''))+'">'+e.v+'</td><td class="num">'+(e.objMin!=null?e.objMin+' a '+e.objMax:'—')+'</td><td>'+e.estado+(e.enObjetivo?'':' · fuera del objetivo')+'</td></tr>'; }).join('')+'</tbody></table>';
+  h += '<div class="src">Cortes del manual como mínimo; rango del arquetipo (línea base EREA, propuesta) como objetivo. Guía para selección y desarrollo, no un veredicto.</div></div>';
+  return h;
+}
+
+/* ================= Idoneidad por rol · v2.0 (09-nov-2026) =================
+   Perfiles por rol (línea base EREA por cliente): llegan en j.perfilesRol desde el backend (hoja PerfilesRol)
+   o se cargan como JSON en este equipo. Estructura: {roles:[{id, rol, nivel, disc:{D,I,S,C}, moss:{HS:{exigencia,min,obj}...}, ipv:{arquetipo, estilo, rangos:{I:[min,max]...}}}],
+   puestos:[{empresa, puesto, rol}], personas:{<dni solo dígitos>: {empresa, puesto, area, nivel, jefe, rol}}}.
+   Criterios (calibración B, aprobada 09-nov-2026): DISC = criterio EREA (choques y diferencia promedio); MOSS brecha < 42 %, objetivo = mínimo de la línea base;
+   IPV brecha decatipo ≤ 3, exceso ≥ 9, objetivo = rango del arquetipo. */
+var PERFIL_ROL = null, ROL_IDX = {};
+function normTxt(s){ return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9 ]+/g,' ').toUpperCase().replace(/\s+/g,' ').trim(); }
+function perfilesRolCargar(j){
+  PERFIL_ROL = j.perfilesRol || null;
+  if (!PERFIL_ROL){ try { PERFIL_ROL = JSON.parse(ls('erea_perfiles_rol')||'null'); } catch(e){ PERFIL_ROL = null; } }
+  aplicarPerfilesRol();
+}
+function aplicarPerfilesRol(){
+  ROL_IDX = {};
+  if (!DATA) return;
+  if (!PERFIL_ROL){ DATA.forEach(function(x){ x.rol = null; x.rolAj = null; }); return; }
+  (PERFIL_ROL.roles||[]).forEach(function(r){ ROL_IDX[r.id] = r; });
+  var P = PERFIL_ROL.personas || {}, PU = PERFIL_ROL.puestos || [];
+  DATA.forEach(function(x){
+    var pe = P[String(x.datos.identidad||'').replace(/\D/g,'')] || null, rolId = null;
+    if (pe){ ['empresa','puesto','area','nivel','sede'].forEach(function(k){ if ((x.datos[k]==null||x.datos[k]==='') && pe[k]) x.datos[k] = pe[k]; }); if (pe.jefe) x.datos.jefe = pe.jefe; if (pe.codigo && !x.datos.codigo) x.datos.codigo = pe.codigo; rolId = pe.rol; }
+    if (!rolId){ var m = PU.filter(function(p){ return normTxt(p.empresa)===normTxt(x.datos.empresa) && normTxt(p.puesto)===normTxt(x.datos.puesto); })[0]; if (m) rolId = m.rol; }
+    x.rol = rolId ? (ROL_IDX[rolId]||null) : null;
+    x.rolAj = x.rol ? ajusteRol(x) : null;
+  });
+}
+function rolNombre(x){ return x.rol ? (x.rol.id+' · '+x.rol.rol) : '—'; }
+function ajTag(n){ return n ? '<span class="aj '+n+'">'+n+'</span>' : '—'; }
+/* --- vista --- */
+$('rolFile') && ($('rolFile').onchange = function(e){ var f=e.target.files[0]; if(!f) return; var rd=new FileReader(); rd.onload=function(){ try{ var j=JSON.parse(rd.result); if(!j.roles) throw new Error('El archivo no trae «roles»'); ls('erea_perfiles_rol', rd.result); PERFIL_ROL=j; aplicarPerfilesRol(); buildFilters(); renderRol(); }catch(err){ alert('No se pudo leer el JSON: '+err.message); } }; rd.readAsText(f); });
+$('rolBorrar') && ($('rolBorrar').onclick = function(){ ls('erea_perfiles_rol', null); PERFIL_ROL=null; aplicarPerfilesRol(); renderRol(); });
+function rolFiltrados(){ return (typeof filtered==='function') ? filtered() : DATA; }
+function renderRol(){
+  $('rolSinPerfil').hidden = !!PERFIL_ROL;
+  var D = rolFiltrados(), con = D.filter(function(x){ return x.rolAj; });
+  var c = {Alto:0, Medio:0, Bajo:0}; con.forEach(function(x){ c[x.rolAj.nivel] = (c[x.rolAj.nivel]||0)+1; });
+  $('rolInfo').textContent = PERFIL_ROL ? (con.length+' de '+D.length+' personas con perfil de rol · línea base '+(PERFIL_ROL.version||'')+(PERFIL_ROL.cliente?' · '+PERFIL_ROL.cliente:'')) : '';
+  $('rolKpis').innerHTML = PERFIL_ROL ? ['<div class="kpi"><div class="l">Con perfil de rol</div><div class="v">'+con.length+'</div><div class="n">de '+D.length+' en el filtro</div></div>',
+    '<div class="kpi"><div class="l">Ajuste Alto</div><div class="v">'+c.Alto+'</div><div class="n">'+(con.length?Math.round(100*c.Alto/con.length)+' %':'')+'</div></div>',
+    '<div class="kpi"><div class="l">Ajuste Medio</div><div class="v">'+c.Medio+'</div><div class="n">'+(con.length?Math.round(100*c.Medio/con.length)+' %':'')+'</div></div>',
+    '<div class="kpi"><div class="l">Ajuste Bajo</div><div class="v" style="color:#B4543A">'+c.Bajo+'</div><div class="n">'+(con.length?Math.round(100*c.Bajo/con.length)+' %':'')+'</div></div>'].join('') : '';
+  $('rolTabla').innerHTML = con.length ? tablaRol(con.slice().sort(function(a,b){ var o={Bajo:0,Medio:1,Alto:2}; return (o[a.rolAj.nivel]-o[b.rolAj.nivel]) || (a.rolAj.orden-b.rolAj.orden); })) : '<p>'+(PERFIL_ROL?'Ninguna persona del filtro tiene perfil de rol asignado (puesto no mapeado).':'Cargue los perfiles por rol para ver el ajuste.')+'</p>';
+  $('rolNota').innerHTML = NOTA_ROL;
+}
+$('btnRolCsv') && ($('btnRolCsv').onclick = function(){
+  var con = rolFiltrados().filter(function(x){ return x.rolAj; }), rows = [CSV_ROL_HEAD].concat(con.map(csvRolFila));
+  var csv = rows.map(function(r){ return r.map(function(v){ v=String(v==null?'':v); return /[",;\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(';'); }).join('\n');
+  var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'})); a.download = CSV_ROL_NOMBRE; a.click();
+});
+/* --- navegación: pestaña «rol» --- */
+var _tabBase = tab;
+tab = function(t){
+  if (t==='rol'){
+    document.querySelectorAll('#tabs button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-tab')==='rol'); });
+    ['vCons','vInd','vAj','vRep'].forEach(function(id){ var e=$(id); if(e) e.hidden=true; });
+    $('vRol').hidden = false; renderRol(); window.scrollTo(0,0); return;
+  }
+  $('vRol').hidden = true; _tabBase(t);
+};
+/* --- reporte individual: sección de rol --- */
+var _reportBase = reportHTML;
+reportHTML = function(x){ var h = _reportBase(x); var s = seccionRol(x); return s ? h.replace(/<\/article>\s*$/, s+'</article>') : h; };
+
 </script>
 </body>
 </html>
